@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ English Learning Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sw:240px;--sbg:#0f172a;--stxt:#94a3b8;
+  --bg:#f1f5f9;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --accent:#6366f1;--abg:#eef2ff;
+  --green:#10b981;--gbg:#ecfdf5;
+  --yellow:#f59e0b;--ybg:#fffbeb;
+  --red:#ef4444;--rbg:#fef2f2;
+  --blue:#3b82f6;--bbg:#eff6ff;
+  --r:12px;
+  --sh:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+  --shm:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
+  --shl:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05);
+}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px;line-height:1.5}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);background:var(--sbg);height:100vh;position:fixed;left:0;top:0;display:flex;flex-direction:column;z-index:100;overflow:hidden}
+.sb-logo{padding:22px 20px 18px;border-bottom:1px solid #1e293b}
+.sb-logo h1{font-size:17px;font-weight:700;color:#fff}
+.sb-logo span{font-size:11px;color:var(--stxt)}
+.sb-nav{flex:1;padding:12px;overflow-y:auto}
+.nav-sec{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#475569;padding:8px 8px 4px;margin-top:6px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;color:var(--stxt);font-size:13px;font-weight:500;transition:all .15s;margin-bottom:2px;user-select:none}
+.nav-item:hover{background:#1e293b;color:#cbd5e1}
+.nav-item.active{background:rgba(99,102,241,.2);color:#a5b4fc}
+.nav-item .ic{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.sb-foot{padding:14px 12px;border-top:1px solid #1e293b}
+.streak-badge{display:flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);border-radius:8px;padding:10px 12px}
+.streak-text{color:#fbbf24;font-size:12px;font-weight:600}
+.streak-sub{color:#78716c;font-size:10px}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.topbar-title{font-size:17px;font-weight:600}
+.topbar-actions{display:flex;align-items:center;gap:10px}
+.content{flex:1;padding:24px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s;font-family:inherit;user-select:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#4f46e5;transform:translateY(-1px);box-shadow:var(--shm)}
+.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:#e8edf4}
+.btn-danger{background:var(--rbg);color:var(--red)}
+.btn-danger:hover{background:var(--red);color:#fff}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-xs{padding:3px 8px;font-size:11px}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--border)}
+.card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:14px;font-weight:600}
+.card-body{padding:18px}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--card);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);border:1px solid var(--border)}
+.stat-icon{font-size:20px;margin-bottom:6px}
+.stat-value{font-size:24px;font-weight:700;line-height:1;margin-bottom:3px}
+.stat-label{font-size:11px;color:var(--muted);font-weight:500}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* BADGES */
+.badge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px}
+.bdg-blue{background:var(--bbg);color:var(--blue)}
+.bdg-green{background:var(--gbg);color:var(--green)}
+.bdg-yellow{background:var(--ybg);color:var(--yellow)}
+.bdg-purple{background:var(--abg);color:var(--accent)}
+.bdg-red{background:var(--rbg);color:var(--red)}
+.bdg-gray{background:#f1f5f9;color:var(--muted)}
+
+/* WORD CARDS */
+.word-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.word-card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--sh);border:1px solid var(--border);transition:all .2s}
+.word-card:hover{transform:translateY(-2px);box-shadow:var(--shm)}
+.word-img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px;cursor:pointer}
+.word-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px}
+.word-text{font-size:19px;font-weight:700}
+.word-pos{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--abg);color:var(--accent);flex-shrink:0}
+.word-pronun{font-size:12px;color:var(--muted);margin-bottom:5px;font-style:italic}
+.word-def{font-size:13px;margin-bottom:7px;line-height:1.5}
+.word-ex{font-size:12px;color:var(--muted);font-style:italic;padding:7px;background:var(--bg);border-radius:6px;border-left:3px solid var(--accent);margin-bottom:8px}
+.word-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.word-date{font-size:11px;color:var(--muted)}
+.word-actions{display:flex;gap:3px}
+.icon-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:3px 5px;border-radius:6px;transition:all .15s;color:var(--muted)}
+.icon-btn:hover{background:var(--bg);color:var(--text)}
+.icon-btn.danger:hover{background:var(--rbg);color:var(--red)}
+
+/* JOURNAL */
+.journal-list{display:flex;flex-direction:column;gap:10px}
+.journal-card{background:var(--card);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);border:1px solid var(--border);cursor:pointer;transition:all .2s}
+.journal-card:hover{transform:translateY(-1px);box-shadow:var(--shm)}
+.journal-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.journal-title{font-size:14px;font-weight:600}
+.journal-date{font-size:11px;color:var(--muted)}
+.journal-preview{font-size:13px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.journal-footer{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);opacity:0;transition:opacity .2s}
+.modal-overlay.show{opacity:1}
+.modal{background:var(--card);border-radius:16px;box-shadow:var(--shl);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;transform:scale(.95) translateY(10px);transition:transform .2s}
+.modal-overlay.show .modal{transform:scale(1) translateY(0)}
+.modal-header{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1}
+.modal-title{font-size:15px;font-weight:600}
+.modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:3px 7px;border-radius:6px;transition:all .15s}
+.modal-close:hover{background:var(--bg);color:var(--text)}
+.modal-body{padding:18px 22px}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:var(--card)}
+
+/* FORMS */
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text);margin-bottom:5px}
+.form-input,.form-textarea,.form-select{width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);background:var(--card);transition:border-color .15s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.form-textarea{resize:vertical;min-height:90px;line-height:1.6}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-hint{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* SEARCH */
+.search-bar{position:relative;margin-bottom:16px}
+.search-bar input{width:100%;padding:9px 14px 9px 40px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;background:var(--card);transition:all .15s}
+.search-bar input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px}
+
+/* FILTER */
+.filter-bar{display:flex;align-items:center;gap:7px;margin-bottom:16px;flex-wrap:wrap}
+.filter-chip{padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--card);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;color:var(--muted)}
+.filter-chip:hover,.filter-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* FLASHCARD */
+.quiz-container{max-width:560px;margin:0 auto}
+.flashcard{perspective:1000px;height:240px;margin-bottom:20px;cursor:pointer}
+.flashcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s}
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
+.flashcard-front,.flashcard-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;box-shadow:var(--shl)}
+.flashcard-front{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.flashcard-back{background:var(--card);transform:rotateY(180deg);border:2px solid var(--border)}
+.flashcard-word{font-size:30px;font-weight:700;margin-bottom:7px}
+.flashcard-hint{font-size:12px;opacity:.7}
+.flashcard-definition{font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px}
+.flashcard-example{font-size:12px;color:var(--muted);font-style:italic}
+.quiz-progress{background:var(--border);height:5px;border-radius:3px;margin-bottom:16px;overflow:hidden}
+.quiz-progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),#8b5cf6);border-radius:3px;transition:width .3s}
+.quiz-actions{display:flex;gap:10px;justify-content:center}
+.quiz-result{text-align:center;padding:36px 20px}
+.result-emoji{font-size:56px;margin-bottom:14px}
+
+/* PLANNER */
+.planner-list{display:flex;flex-direction:column;gap:7px}
+.planner-item{background:var(--card);border-radius:10px;padding:12px 14px;box-shadow:var(--sh);border:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:all .2s}
+.planner-item:hover{box-shadow:var(--shm)}
+.planner-item.done{opacity:.55}
+.planner-check{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.planner-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.planner-info{flex:1}
+.planner-title{font-size:13px;font-weight:500}
+.planner-title.done{text-decoration:line-through;color:var(--muted)}
+.planner-meta{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* CALENDAR */
+.calendar-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:10px}
+.cal-hdr{text-align:center;font-size:10px;font-weight:600;color:var(--muted);padding:3px 0}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:50%;cursor:pointer;transition:all .15s;color:var(--muted);position:relative}
+.cal-day:hover{background:var(--bg)}
+.cal-day.today{background:var(--accent);color:#fff;font-weight:700}
+.cal-day.selected{background:var(--abg);color:var(--accent);font-weight:600}
+.cal-day.has-dot::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--accent);border-radius:50%}
+
+/* CHART */
+.chart-container{height:160px}
+.mini-chart{display:flex;align-items:flex-end;gap:5px;height:100%}
+.chart-bw{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%}
+.chart-bar{width:100%;background:var(--accent);border-radius:3px 3px 0 0;min-height:3px}
+.chart-lbl{font-size:10px;color:var(--muted)}
+.chart-val{font-size:10px;color:var(--accent);font-weight:600;height:11px}
+
+/* HEATMAP */
+.heatmap{display:flex;gap:3px;flex-wrap:wrap}
+.heat-cell{width:11px;height:11px;border-radius:2px;background:var(--border)}
+.heat-cell.l1{background:#c7d2fe}.heat-cell.l2{background:#a5b4fc}.heat-cell.l3{background:#818cf8}.heat-cell.l4{background:var(--accent)}
+
+/* TAGS */
+.tags-input{display:flex;flex-wrap:wrap;gap:5px;padding:5px;border:1px solid var(--border);border-radius:8px;background:var(--card);min-height:40px;cursor:text;transition:border-color .15s}
+.tags-input:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.tag-item{background:var(--abg);color:var(--accent);font-size:11px;padding:2px 7px;border-radius:4px;display:flex;align-items:center;gap:3px}
+.tag-remove{cursor:pointer;font-size:13px;line-height:1}
+.tags-input input{border:none;outline:none;font-size:12px;font-family:inherit;min-width:90px;background:transparent;color:var(--text)}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:48px 16px;color:var(--muted)}
+.empty-icon{font-size:44px;margin-bottom:12px}
+.empty-state h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:5px}
+.empty-state p{font-size:13px}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:20px;right:20px;z-index:2000;display:flex;flex-direction:column;gap:7px}
+.toast{background:var(--text);color:#fff;padding:10px 14px;border-radius:9px;font-size:13px;font-weight:500;box-shadow:var(--shl);display:flex;align-items:center;gap:7px;transform:translateX(100px);opacity:0;transition:all .3s ease}
+.toast.show{transform:translateX(0);opacity:1}
+.toast.success{background:var(--green)}.toast.error{background:var(--red)}
+
+/* SECTION */
+.section{display:none}.section.active{display:block}
+
+/* LESSON CARD */
+.lesson-card{background:var(--card);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);border:1px solid var(--border);border-left:4px solid var(--accent);cursor:pointer;transition:all .2s;margin-bottom:10px}
+.lesson-card:hover{transform:translateY(-1px);box-shadow:var(--shm)}
+
+/* TASK ITEM */
+.task-item{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.task-item:last-child{border-bottom:none}
+.task-check{width:16px;height:16px;border:2px solid var(--border);border-radius:4px;cursor:pointer;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s}
+.task-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.task-text{font-size:13px;flex:1}
+.task-text.done{text-decoration:line-through;color:var(--muted)}
+.task-time{font-size:11px;color:var(--muted);flex-shrink:0}
+
+/* ===== STUDY ROOM ===== */
+.study-layout{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+.yt-player-wrap{background:#000;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:16/9}
+.yt-player-wrap iframe{width:100%;height:100%;border:none;display:block}
+.yt-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:12px;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e)}
+.yt-placeholder .ph-icon{font-size:48px}
+.yt-placeholder p{font-size:13px;opacity:.7;text-align:center}
+.presets-section{margin-top:16px}
+.presets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-top:8px}
+.preset-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s;text-align:left;font-family:inherit;font-size:12px;font-weight:500;color:var(--text)}
+.preset-btn:hover{border-color:var(--accent);background:var(--abg);color:var(--accent)}
+.preset-btn .pb-icon{font-size:18px;display:block;margin-bottom:4px}
+.yt-input-row{display:flex;gap:8px;margin-top:10px}
+.yt-input-row input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit}
+.yt-input-row input:focus{outline:none;border-color:var(--accent)}
+
+/* POMODORO */
+.pomo-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--border);padding:20px;text-align:center}
+.pomo-mode-tabs{display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:8px;margin-bottom:16px}
+.pomo-tab{flex:1;padding:6px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;color:var(--muted);border:none;background:none;font-family:inherit}
+.pomo-tab.active{background:var(--card);color:var(--text);box-shadow:var(--sh)}
+.pomo-circle-wrap{position:relative;width:140px;height:140px;margin:0 auto 16px}
+.pomo-circle-wrap svg{transform:rotate(-90deg)}
+.pomo-circle-bg{fill:none;stroke:var(--border);stroke-width:8}
+.pomo-circle-fg{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;stroke-dasharray:345;stroke-dashoffset:0;transition:stroke-dashoffset .5s,stroke .3s}
+.pomo-time{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pomo-time-display{font-size:28px;font-weight:700;line-height:1}
+.pomo-label{font-size:11px;color:var(--muted);margin-top:3px}
+.pomo-controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.pomo-settings{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.pomo-setting-item{text-align:center}
+.pomo-setting-item label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
+.pomo-setting-item input{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:13px;font-family:inherit}
+.pomo-cycles{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* ===== SUBJECT NOTEBOOKS ===== */
+.subjects-layout{display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:start}
+.subject-list{display:flex;flex-direction:column;gap:6px}
+.subject-item{background:var(--card);border-radius:10px;padding:11px 13px;box-shadow:var(--sh);border:1px solid var(--border);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:9px;border-left:4px solid transparent}
+.subject-item:hover{box-shadow:var(--shm)}
+.subject-item.active{box-shadow:var(--shm)}
+.subject-icon{font-size:18px;flex-shrink:0}
+.subject-name{font-size:13px;font-weight:600;flex:1}
+.subject-count{font-size:11px;color:var(--muted)}
+.subject-notes-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.subject-note-card{background:var(--card);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:all .2s}
+.subject-note-card:hover{transform:translateY(-1px);box-shadow:var(--shm)}
+.sn-title{font-size:14px;font-weight:600;margin-bottom:5px}
+.sn-preview{font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+.sn-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sn-images{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.sn-thumb{width:52px;height:44px;object-fit:cover;border-radius:5px;cursor:pointer}
+.sn-links{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.sn-link{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--blue);text-decoration:none}
+.sn-link:hover{text-decoration:underline}
+
+/* LINKS INPUT */
+.link-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.link-item{display:flex;align-items:center;gap:6px}
+.link-item input{flex:1;padding:6px 9px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit}
+
+/* IMAGE UPLOAD */
+.img-upload-area{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.img-upload-area:hover{border-color:var(--accent);background:var(--abg)}
+.img-upload-area.has-image{border-style:solid;border-color:var(--green)}
+.img-preview-wrap{position:relative;display:inline-block}
+.img-preview{max-width:100%;max-height:160px;border-radius:8px;display:block}
+.img-remove{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* MULTI IMAGE PREVIEW */
+.multi-img-preview{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.multi-img-item{position:relative}
+.multi-img-item img{width:72px;height:60px;object-fit:cover;border-radius:6px}
+.multi-img-item .img-remove{width:16px;height:16px;font-size:10px}
+
+/* FULL IMAGE MODAL */
+.img-viewer{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.img-viewer img{max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:var(--shl)}
+
+/* COLOR SWATCHES */
+.color-swatches{display:flex;gap:8px;flex-wrap:wrap}
+.color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;transition:all .15s;border:2px solid transparent}
+.color-swatch:hover,.color-swatch.selected{border-color:var(--text);transform:scale(1.15)}
+
+@media(max-width:900px){
+  .study-layout{grid-template-columns:1fr}
+  .subjects-layout{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}.grid-2{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <h1>✦ English Hub</h1>
+    <span>Học tiếng Anh mỗi ngày</span>
+  </div>
+  <nav class="sb-nav">
+    <div class="nav-sec">Tổng quan</div>
+    <div class="nav-item active" onclick="go('dashboard')"><span class="ic">🏠</span>Dashboard</div>
+
+    <div class="nav-sec">Tiếng Anh</div>
+    <div class="nav-item" onclick="go('vocabulary')"><span class="ic">📖</span>Từ vựng</div>
+    <div class="nav-item" onclick="go('journal')"><span class="ic">✍️</span>Nhật ký viết</div>
+    <div class="nav-item" onclick="go('lessons')"><span class="ic">📚</span>Bài giảng</div>
+
+    <div class="nav-sec">Môn học khác</div>
+    <div class="nav-item" onclick="go('subjects')"><span class="ic">📁</span>Kho tài liệu</div>
+
+    <div class="nav-sec">Luyện tập & Tools</div>
+    <div class="nav-item" onclick="go('studyroom')"><span class="ic">🎵</span>Study Room</div>
+    <div class="nav-item" onclick="go('quiz')"><span class="ic">🧪</span>Quiz ôn tập</div>
+    <div class="nav-item" onclick="go('planner')"><span class="ic">📅</span>Lịch học</div>
+    <div class="nav-item" onclick="go('stats')"><span class="ic">📊</span>Thống kê</div>
+  </nav>
+  <div class="sb-foot">
+    <div class="streak-badge">
+      <span style="font-size:20px">🔥</span>
+      <div>
+        <div class="streak-text" id="streakCount">0 ngày liên tiếp</div>
+        <div class="streak-sub">Học đều mỗi ngày!</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <header class="topbar">
+    <h2 class="topbar-title" id="pageTitle">🏠 Dashboard</h2>
+    <div class="topbar-actions" id="topbarActions"></div>
+  </header>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <section class="section active" id="section-dashboard">
+      <div class="stats-grid" id="dashStats"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">📖 Từ vựng hôm nay</span>
+            <button class="btn btn-primary btn-sm" onclick="go('vocabulary');openAddWord()">+ Thêm từ</button></div>
+          <div class="card-body" id="dashWords"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">📅 Nhiệm vụ hôm nay</span>
+            <button class="btn btn-primary btn-sm" onclick="go('planner');openAddTask()">+ Thêm</button></div>
+          <div class="card-body" id="dashTasks"></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:14px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">✍️ Bài viết gần đây</span></div>
+          <div class="card-body" id="dashJournal"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">📈 Từ vựng tuần này</span></div>
+          <div class="card-body"><div class="chart-container"><div class="mini-chart" id="weekChart"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOCABULARY -->
+    <section class="section" id="section-vocabulary">
+      <div class="search-bar"><span class="search-icon">🔍</span>
+        <input type="text" id="vocabSearch" placeholder="Tìm từ vựng, định nghĩa, tag..." oninput="renderVocabulary()"></div>
+      <div class="filter-bar" id="vocabFilters">
+        <span class="filter-chip active" onclick="setVF(this,'all')">Tất cả</span>
+        <span class="filter-chip" onclick="setVF(this,'noun')">Danh từ</span>
+        <span class="filter-chip" onclick="setVF(this,'verb')">Động từ</span>
+        <span class="filter-chip" onclick="setVF(this,'adjective')">Tính từ</span>
+        <span class="filter-chip" onclick="setVF(this,'adverb')">Trạng từ</span>
+        <span class="filter-chip" onclick="setVF(this,'phrase')">Cụm từ</span>
+      </div>
+      <div class="word-grid" id="wordGrid"></div>
+    </section>
+
+    <!-- JOURNAL -->
+    <section class="section" id="section-journal">
+      <div class="search-bar"><span class="search-icon">🔍</span>
+        <input type="text" id="journalSearch" placeholder="Tìm kiếm bài viết..." oninput="renderJournal()"></div>
+      <div class="journal-list" id="journalList"></div>
+    </section>
+
+    <!-- LESSONS -->
+    <section class="section" id="section-lessons">
+      <div class="search-bar"><span class="search-icon">🔍</span>
+        <input type="text" id="lessonSearch" placeholder="Tìm kiếm bài giảng..." oninput="renderLessons()"></div>
+      <div class="filter-bar" id="lessonFilters">
+        <span class="filter-chip active" onclick="setLF(this,'all')">Tất cả</span>
+        <span class="filter-chip" onclick="setLF(this,'grammar')">Ngữ pháp</span>
+        <span class="filter-chip" onclick="setLF(this,'pronunciation')">Phát âm</span>
+        <span class="filter-chip" onclick="setLF(this,'listening')">Nghe hiểu</span>
+        <span class="filter-chip" onclick="setLF(this,'writing')">Viết</span>
+        <span class="filter-chip" onclick="setLF(this,'other')">Khác</span>
+      </div>
+      <div id="lessonGrid"></div>
+    </section>
+
+    <!-- SUBJECTS -->
+    <section class="section" id="section-subjects">
+      <div class="subjects-layout">
+        <div>
+          <div class="card" style="padding:14px">
+            <button class="btn btn-primary" style="width:100%;margin-bottom:12px;" onclick="openAddSubject()">➕ Thêm môn học</button>
+            <div class="subject-list" id="subjectList"></div>
+          </div>
+        </div>
+        <div id="subjectNotesPanel">
+          <div class="empty-state" style="padding:60px 20px;">
+            <div class="empty-icon">📁</div>
+            <h3>Chọn môn học</h3>
+            <p>Chọn một môn học ở bên trái để xem ghi chú</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDY ROOM -->
+    <section class="section" id="section-studyroom">
+      <div class="study-layout">
+        <div>
+          <div class="yt-player-wrap" id="ytPlayerWrap">
+            <div class="yt-placeholder" id="ytPlaceholder">
+              <div class="ph-icon">🎵</div>
+              <p>Chọn nhạc bên dưới hoặc dán link YouTube</p>
+            </div>
+          </div>
+          <div class="presets-section">
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">🎧 Nhạc học tập</div>
+            <div class="presets-grid" id="presetsGrid"></div>
+            <div class="yt-input-row" style="margin-top:12px;">
+              <input type="text" id="ytUrlInput" placeholder="Dán link YouTube bất kỳ..." onkeydown="if(e?.key==='Enter'||event.key==='Enter')playYT()">
+              <button class="btn btn-primary" onclick="playYT()">▶ Phát</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="pomo-card">
+            <div style="font-size:14px;font-weight:600;margin-bottom:10px;">⏱️ Pomodoro Timer</div>
+            <div class="pomo-mode-tabs">
+              <button class="pomo-tab active" id="tabWork" onclick="setPomoMode('work')">Học</button>
+              <button class="pomo-tab" id="tabBreak" onclick="setPomoMode('break')">Nghỉ</button>
+              <button class="pomo-tab" id="tabLong" onclick="setPomoMode('long')">Nghỉ dài</button>
+            </div>
+            <div class="pomo-circle-wrap">
+              <svg width="140" height="140" viewBox="0 0 140 140">
+                <circle class="pomo-circle-bg" cx="70" cy="70" r="55"/>
+                <circle class="pomo-circle-fg" cx="70" cy="70" r="55" id="pomoFg"/>
+              </svg>
+              <div class="pomo-time">
+                <div class="pomo-time-display" id="pomoTime">25:00</div>
+                <div class="pomo-label" id="pomoModeLabel">Tập trung học</div>
+              </div>
+            </div>
+            <div class="pomo-controls">
+              <button class="btn btn-secondary btn-sm" onclick="resetPomo()">↩ Reset</button>
+              <button class="btn btn-primary" id="pomoBtn" onclick="togglePomo()">▶ Bắt đầu</button>
+            </div>
+            <div class="pomo-cycles" id="pomoCycles">Chu kỳ: 0 🍅</div>
+            <div class="pomo-settings">
+              <div class="pomo-setting-item">
+                <label>Học (phút)</label>
+                <input type="number" id="pomoWork" value="25" min="1" max="90" onchange="updatePomoSettings()">
+              </div>
+              <div class="pomo-setting-item">
+                <label>Nghỉ (phút)</label>
+                <input type="number" id="pomoBreak" value="5" min="1" max="30" onchange="updatePomoSettings()">
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:14px;padding:16px;">
+            <div style="font-size:13px;font-weight:600;margin-bottom:8px;">💡 Tips học tập</div>
+            <div id="studyTip" style="font-size:12px;color:var(--muted);line-height:1.7;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="section" id="section-quiz">
+      <div class="quiz-container" id="quizContainer"></div>
+    </section>
+
+    <!-- PLANNER -->
+    <section class="section" id="section-planner">
+      <div class="grid-2">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <div style="text-align:center;font-weight:600;font-size:13px;margin-bottom:10px;" id="calMonthLabel"></div>
+              <div class="calendar-mini" id="miniCalendar"></div>
+              <div style="text-align:center;font-size:11px;color:var(--muted);margin-top:6px;" id="selectedDateLabel"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title" id="plannerDateTitle">📅 Nhiệm vụ</span>
+              <button class="btn btn-primary btn-sm" onclick="openAddTask()">+ Thêm</button>
+            </div>
+            <div class="card-body"><div class="planner-list" id="plannerList"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="section" id="section-stats">
+      <div class="stats-grid" id="statsCards"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">📊 Từ vựng 7 ngày</span></div>
+          <div class="card-body"><div class="chart-container"><div class="mini-chart" id="statsChart"></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">📋 Phân loại từ vựng</span></div>
+          <div class="card-body" id="posChart"></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="card-header"><span class="card-title">🗓️ Lịch sử học tập (90 ngày)</span></div>
+        <div class="card-body">
+          <div class="heatmap" id="heatmap"></div>
+          <div style="display:flex;align-items:center;gap:5px;margin-top:10px;font-size:11px;color:var(--muted);">
+            <span>Ít</span>
+            <div class="heat-cell"></div><div class="heat-cell l1"></div>
+            <div class="heat-cell l2"></div><div class="heat-cell l3"></div>
+            <div class="heat-cell l4"></div><span>Nhiều</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Add Word -->
+<div class="modal-overlay" id="modalWord">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modalWordTitle">➕ Thêm từ mới</span>
+      <button class="modal-close" onclick="closeModal('modalWord')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Từ vựng *</label>
+        <input type="text" class="form-input" id="wordInput" placeholder="e.g. serendipity">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Phiên âm</label>
+          <input type="text" class="form-input" id="wordPronun" placeholder="/ˌser.ənˈdɪp.ɪ.ti/">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Loại từ</label>
+          <select class="form-select" id="wordPos">
+            <option value="noun">Danh từ</option><option value="verb">Động từ</option>
+            <option value="adjective">Tính từ</option><option value="adverb">Trạng từ</option>
+            <option value="phrase">Cụm từ</option><option value="other">Khác</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Định nghĩa / Nghĩa tiếng Việt *</label>
+        <input type="text" class="form-input" id="wordDef" placeholder="e.g. sự may mắn tình cờ">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Câu ví dụ</label>
+        <textarea class="form-textarea" id="wordEx" placeholder="e.g. Finding this café was pure serendipity." rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tags</label>
+        <div class="tags-input" id="wordTagsInput" onclick="focusTagInput()">
+          <input type="text" id="wordTagField" placeholder="Nhập tag, Enter để thêm..." onkeydown="handleTagInput(event)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📸 Ảnh minh họa (tùy chọn)</label>
+        <div class="img-upload-area" id="wordImgArea" onclick="document.getElementById('wordImgFile').click()">
+          <div id="wordImgPlaceholder">
+            <div style="font-size:28px;margin-bottom:6px">📷</div>
+            <div style="font-size:12px;color:var(--muted)">Nhấn để chọn ảnh</div>
+          </div>
+          <div id="wordImgPreviewWrap" style="display:none">
+            <div class="img-preview-wrap">
+              <img id="wordImgPreview" class="img-preview" src="" alt="">
+              <button class="img-remove" onclick="removeWordImg(event)">✕</button>
+            </div>
+          </div>
+        </div>
+        <input type="file" id="wordImgFile" accept="image/*" style="display:none" onchange="handleWordImg(event)">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalWord')">Hủy</button>
+      <button class="btn btn-primary" onclick="saveWord()">💾 Lưu từ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Journal -->
+<div class="modal-overlay" id="modalJournal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <span class="modal-title" id="modalJournalTitle">✍️ Viết bài mới</span>
+      <button class="modal-close" onclick="closeModal('modalJournal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Tiêu đề *</label>
+        <input type="text" class="form-input" id="journalTitle" placeholder="e.g. My weekend trip...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ngày</label>
+          <input type="date" class="form-input" id="journalDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Thể loại</label>
+          <select class="form-select" id="journalCategory">
+            <option value="daily">Nhật ký hàng ngày</option><option value="essay">Bài luận</option>
+            <option value="story">Câu chuyện</option><option value="description">Mô tả</option>
+            <option value="opinion">Ý kiến</option><option value="other">Khác</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung *</label>
+        <textarea class="form-textarea" id="journalContent" placeholder="Viết bài tiếng Anh ở đây..." style="min-height:180px" oninput="updateWordCount()"></textarea>
+        <div class="form-hint" id="wordCountDisplay">0 từ</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📸 Ảnh đính kèm (tùy chọn)</label>
+        <div class="img-upload-area" onclick="document.getElementById('journalImgFile').click()" style="padding:12px">
+          <div style="font-size:12px;color:var(--muted)">📷 Nhấn để thêm ảnh</div>
+        </div>
+        <input type="file" id="journalImgFile" accept="image/*" style="display:none" onchange="handleJournalImg(event)">
+        <div class="multi-img-preview" id="journalImgPreview"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalJournal')">Hủy</button>
+      <button class="btn btn-primary" onclick="saveJournal()">💾 Lưu bài</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Journal -->
+<div class="modal-overlay" id="modalViewJournal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <span class="modal-title" id="viewJournalTitle"></span>
+      <button class="modal-close" onclick="closeModal('modalViewJournal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="viewJournalMeta" style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap"></div>
+      <div id="viewJournalContent" style="font-size:14px;line-height:1.8;white-space:pre-wrap;margin-bottom:14px;"></div>
+      <div id="viewJournalImages" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalViewJournal')">Đóng</button>
+      <button class="btn btn-primary" id="editJournalBtn">✏️ Sửa</button>
+      <button class="btn btn-danger" id="deleteJournalBtn">🗑️ Xóa</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Lesson -->
+<div class="modal-overlay" id="modalLesson">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <span class="modal-title" id="modalLessonTitle">📚 Thêm bài giảng</span>
+      <button class="modal-close" onclick="closeModal('modalLesson')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Tiêu đề *</label>
+        <input type="text" class="form-input" id="lessonTitle" placeholder="e.g. Present Perfect Tense...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Danh mục</label>
+          <select class="form-select" id="lessonCategory">
+            <option value="grammar">Ngữ pháp</option><option value="pronunciation">Phát âm</option>
+            <option value="listening">Nghe hiểu</option><option value="writing">Viết</option>
+            <option value="other">Khác</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ngày</label>
+          <input type="date" class="form-input" id="lessonDate">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung *</label>
+        <textarea class="form-textarea" id="lessonContent" placeholder="Ghi chú bài học..." style="min-height:200px"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalLesson')">Hủy</button>
+      <button class="btn btn-primary" onclick="saveLesson()">💾 Lưu bài</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Lesson -->
+<div class="modal-overlay" id="modalViewLesson">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <span class="modal-title" id="viewLessonTitle"></span>
+      <button class="modal-close" onclick="closeModal('modalViewLesson')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="viewLessonMeta" style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap"></div>
+      <div id="viewLessonContent" style="font-size:14px;line-height:1.8;white-space:pre-wrap;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalViewLesson')">Đóng</button>
+      <button class="btn btn-primary" id="editLessonBtn">✏️ Sửa</button>
+      <button class="btn btn-danger" id="deleteLessonBtn">🗑️ Xóa</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Task -->
+<div class="modal-overlay" id="modalTask">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header">
+      <span class="modal-title">📅 Thêm nhiệm vụ</span>
+      <button class="modal-close" onclick="closeModal('modalTask')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Tên nhiệm vụ *</label>
+        <input type="text" class="form-input" id="taskTitle" placeholder="e.g. Học 10 từ mới...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ngày</label>
+          <input type="date" class="form-input" id="taskDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Giờ</label>
+          <input type="time" class="form-input" id="taskTime">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Loại</label>
+        <select class="form-select" id="taskType">
+          <option value="vocabulary">📖 Từ vựng</option><option value="writing">✍️ Viết</option>
+          <option value="listening">🎧 Nghe</option><option value="speaking">🗣️ Nói</option>
+          <option value="grammar">📝 Ngữ pháp</option><option value="quiz">🧪 Quiz</option>
+          <option value="other">📌 Khác</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalTask')">Hủy</button>
+      <button class="btn btn-primary" onclick="saveTask()">💾 Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Subject -->
+<div class="modal-overlay" id="modalSubject">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header">
+      <span class="modal-title" id="modalSubjectTitle">📁 Thêm môn học</span>
+      <button class="modal-close" onclick="closeModal('modalSubject')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Tên môn học *</label>
+        <input type="text" class="form-input" id="subjectName" placeholder="e.g. Toán, Lý, Hóa, Sử...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Icon</label>
+          <input type="text" class="form-input" id="subjectIcon" placeholder="📚" maxlength="4" style="font-size:20px;text-align:center">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Màu sắc</label>
+          <div class="color-swatches" id="subjectColorSwatches"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mô tả</label>
+        <input type="text" class="form-input" id="subjectDesc" placeholder="Ghi chú ngắn về môn học...">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalSubject')">Hủy</button>
+      <button class="btn btn-primary" onclick="saveSubject()">💾 Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Subject Note -->
+<div class="modal-overlay" id="modalSubjectNote">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <span class="modal-title" id="modalSNTitle">📝 Thêm ghi chú</span>
+      <button class="modal-close" onclick="closeModal('modalSubjectNote')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Tiêu đề *</label>
+        <input type="text" class="form-input" id="snTitle" placeholder="e.g. Chương 1: Đạo hàm, Công thức tích phân...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ngày</label>
+        <input type="date" class="form-input" id="snDate">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung *</label>
+        <textarea class="form-textarea" id="snContent" placeholder="Ghi chú bài học..." style="min-height:180px"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📸 Ảnh đính kèm</label>
+        <div class="img-upload-area" onclick="document.getElementById('snImgFile').click()" style="padding:12px">
+          <div style="font-size:12px;color:var(--muted)">📷 Nhấn để thêm ảnh (có thể thêm nhiều ảnh)</div>
+        </div>
+        <input type="file" id="snImgFile" accept="image/*" multiple style="display:none" onchange="handleSNImg(event)">
+        <div class="multi-img-preview" id="snImgPreview"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🔗 Link tài liệu (Google Drive, OneDrive...)</label>
+        <div class="link-list" id="snLinkList"></div>
+        <button class="btn btn-secondary btn-sm" onclick="addLinkRow()">+ Thêm link</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalSubjectNote')">Hủy</button>
+      <button class="btn btn-primary" onclick="saveSubjectNote()">💾 Lưu ghi chú</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Subject Note -->
+<div class="modal-overlay" id="modalViewSN">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <span class="modal-title" id="viewSNTitle"></span>
+      <button class="modal-close" onclick="closeModal('modalViewSN')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="viewSNMeta" style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;"></div>
+      <div id="viewSNContent" style="font-size:14px;line-height:1.8;white-space:pre-wrap;margin-bottom:14px;"></div>
+      <div id="viewSNImages" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"></div>
+      <div id="viewSNLinks"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalViewSN')">Đóng</button>
+      <button class="btn btn-primary" id="editSNBtn">✏️ Sửa</button>
+      <button class="btn btn-danger" id="deleteSNBtn">🗑️ Xóa</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ============================================================
+//  DATA
+// ============================================================
+const DB={
+  get:(k)=>JSON.parse(localStorage.getItem('elh_'+k)||'[]'),
+  set:(k,v)=>localStorage.setItem('elh_'+k,JSON.stringify(v)),
+  id:()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+};
+
+const S={
+  section:'dashboard', vocabFilter:'all', lessonFilter:'all',
+  editId:null, wordTags:[], wordImg:null, journalImgs:[], snImgs:[], snLinks:[],
+  selectedSubjectId:null, selectedSubjectColor:'#6366f1',
+  quiz:{started:false,words:[],cur:0,correct:0,wrong:0,flipped:false,done:false},
+  planner:{date:todayStr()},
+};
+
+// ============================================================
+//  HELPERS
+// ============================================================
+function todayStr(){return new Date().toISOString().slice(0,10)}
+function fmtDate(ds){if(!ds)return'';const[y,m,d]=ds.split('-');return`${d}/${m}/${y}`}
+function wc(t){return t.trim()?t.trim().split(/\s+/).length:0}
+function esc(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''}
+
+const POS={noun:'Danh từ',verb:'Động từ',adjective:'Tính từ',adverb:'Trạng từ',phrase:'Cụm từ',other:'Khác'};
+const POSSH={noun:'n.',verb:'v.',adjective:'adj.',adverb:'adv.',phrase:'phrase',other:'…'};
+const CAT={grammar:'Ngữ pháp',pronunciation:'Phát âm',listening:'Nghe hiểu',writing:'Viết',other:'Khác',
+           daily:'Nhật ký',essay:'Bài luận',story:'Câu chuyện',description:'Mô tả',opinion:'Ý kiến'};
+const TICO={vocabulary:'📖',writing:'✍️',listening:'🎧',speaking:'🗣️',grammar:'📝',quiz:'🧪',other:'📌'};
+const MONTHS=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+const SUBJECT_COLORS=['#6366f1','#10b981','#f59e0b','#ef4444','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316','#64748b'];
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+const PTITLES={dashboard:'🏠 Dashboard',vocabulary:'📖 Từ điển cá nhân',journal:'✍️ Nhật ký viết',
+  lessons:'📚 Bài giảng & Ghi chú',subjects:'📁 Kho tài liệu',studyroom:'🎵 Study Room',
+  quiz:'🧪 Quiz ôn tập',planner:'📅 Lịch học',stats:'📊 Thống kê'};
+const PACTIONS={
+  vocabulary:`<button class="btn btn-primary" onclick="openAddWord()">➕ Thêm từ mới</button>`,
+  journal:`<button class="btn btn-primary" onclick="openAddJournal()">➕ Viết bài mới</button>`,
+  lessons:`<button class="btn btn-primary" onclick="openAddLesson()">➕ Thêm bài giảng</button>`,
+  subjects:`<button class="btn btn-secondary" onclick="openAddSubject()">➕ Thêm môn học</button>`,
+  quiz:`<button class="btn btn-secondary" onclick="resetQuiz()">🔄 Bắt đầu lại</button>`,
+  planner:`<button class="btn btn-primary" onclick="openAddTask()">➕ Thêm nhiệm vụ</button>`,
+};
+
+function go(section){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('section-'+section).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')===`go('${section}')`)n.classList.add('active')});
+  S.section=section;
+  document.getElementById('pageTitle').textContent=PTITLES[section]||section;
+  document.getElementById('topbarActions').innerHTML=PACTIONS[section]||'';
+  const renders={dashboard:renderDashboard,vocabulary:renderVocabulary,journal:renderJournal,
+    lessons:renderLessons,subjects:renderSubjects,studyroom:renderStudyRoom,
+    quiz:renderQuiz,planner:renderPlanner,stats:renderStats};
+  if(renders[section])renders[section]();
+}
+
+// ============================================================
+//  STREAK + CHART
+// ============================================================
+function calcStreak(){
+  const act=new Set([...DB.get('words').map(w=>w.dateAdded),...DB.get('journals').map(j=>j.date),
+    ...DB.get('tasks').filter(t=>t.completed).map(t=>t.date)]);
+  let s=0;const now=new Date();
+  for(let i=0;i<=365;i++){const d=new Date(now);d.setDate(d.getDate()-i);if(act.has(d.toISOString().slice(0,10)))s++;else if(i>0)break;}
+  return s;
+}
+function updateStreak(){document.getElementById('streakCount').textContent=calcStreak()+' ngày liên tiếp'}
+
+function renderWeekChart(id){
+  const words=DB.get('words');const now=new Date();
+  const DAYS=['T2','T3','T4','T5','T6','T7','CN'];
+  const data=[];
+  for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);
+    const ds=d.toISOString().slice(0,10);
+    data.push({lbl:DAYS[d.getDay()===0?6:d.getDay()-1],cnt:words.filter(w=>w.dateAdded===ds).length});}
+  const mx=Math.max(...data.map(d=>d.cnt),1);
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=data.map(d=>`
+    <div class="chart-bw">
+      <div class="chart-val">${d.cnt||''}</div>
+      <div style="flex:1;display:flex;align-items:flex-end;width:100%">
+        <div class="chart-bar" style="height:${(d.cnt/mx)*100}%;background:${d.cnt?'var(--accent)':'var(--border)'}"></div>
+      </div>
+      <div class="chart-lbl">${d.lbl}</div>
+    </div>`).join('');
+}
+
+// ============================================================
+//  IMAGE COMPRESS
+// ============================================================
+async function compressImg(file,maxW=900,q=0.72){
+  return new Promise(res=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        let{width:w,height:h}=img;
+        if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        res(canvas.toDataURL('image/jpeg',q));
+      };img.src=e.target.result;
+    };reader.readAsDataURL(file);
+  });
+}
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function renderDashboard(){
+  const words=DB.get('words'),journals=DB.get('journals'),lessons=DB.get('lessons'),tasks=DB.get('tasks');
+  const today=todayStr(),tw=words.filter(w=>w.dateAdded===today),tt=tasks.filter(t=>t.date===today);
+  const streak=calcStreak();
+  updateStreak();
+  document.getElementById('dashStats').innerHTML=[
+    {ic:'📖',v:words.length,l:'Tổng từ vựng'},{ic:'✍️',v:journals.length,l:'Bài đã viết'},
+    {ic:'📚',v:lessons.length,l:'Bài giảng'},{ic:'🔥',v:streak,l:'Ngày streak'},
+    {ic:'📅',v:tw.length,l:'Từ hôm nay'},{ic:'✅',v:`${tt.filter(t=>t.completed).length}/${tt.length}`,l:'Nhiệm vụ hôm nay'},
+  ].map(s=>`<div class="stat-card"><div class="stat-icon">${s.ic}</div><div class="stat-value">${s.v}</div><div class="stat-label">${s.l}</div></div>`).join('');
+
+  const dw=document.getElementById('dashWords');
+  dw.innerHTML=tw.length===0?`<div class="empty-state" style="padding:16px 0"><div class="empty-icon">📖</div>
+    <p>Chưa có từ nào hôm nay!<br><a href="#" onclick="go('vocabulary');openAddWord();return false;" style="color:var(--accent);font-weight:500">Thêm từ mới →</a></p></div>`:
+    tw.slice(0,5).map(w=>`<div class="task-item" style="cursor:default">
+      <div style="flex:1"><strong>${esc(w.word)}</strong> <span class="badge bdg-purple">${POSSH[w.partOfSpeech]||''}</span>
+      <div style="font-size:12px;color:var(--muted);margin-top:1px">${esc(w.definition)}</div></div></div>`).join('');
+
+  const dt=document.getElementById('dashTasks');
+  dt.innerHTML=tt.length===0?`<div class="empty-state" style="padding:16px 0"><div class="empty-icon">📅</div>
+    <p>Chưa có nhiệm vụ hôm nay!<br><a href="#" onclick="go('planner');openAddTask();return false;" style="color:var(--accent);font-weight:500">Lên kế hoạch →</a></p></div>`:
+    tt.slice(0,5).map(t=>`<div class="task-item" onclick="toggleTask('${t.id}')">
+      <div class="task-check ${t.completed?'done':''}">${t.completed?'✓':''}</div>
+      <span class="task-text ${t.completed?'done':''}">${TICO[t.type]||'📌'} ${esc(t.title)}</span>
+      ${t.time?`<span class="task-time">${t.time}</span>`:''}</div>`).join('');
+
+  const dj=document.getElementById('dashJournal');
+  const rj=[...journals].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4);
+  dj.innerHTML=rj.length===0?`<div class="empty-state" style="padding:16px 0"><div class="empty-icon">✍️</div>
+    <p><a href="#" onclick="go('journal');openAddJournal();return false;" style="color:var(--accent);font-weight:500">Bắt đầu viết ngay →</a></p></div>`:
+    rj.map(j=>`<div class="task-item" onclick="go('journal');viewJournal('${j.id}')">
+      <div style="flex:1"><strong style="font-size:13px">${esc(j.title)}</strong>
+      <div style="font-size:11px;color:var(--muted)">📅 ${fmtDate(j.date)} · ${wc(j.content)} từ</div></div></div>`).join('');
+
+  renderWeekChart('weekChart');
+}
+
+// ============================================================
+//  VOCABULARY
+// ============================================================
+function setVF(el,f){document.querySelectorAll('#vocabFilters .filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');S.vocabFilter=f;renderVocabulary()}
+
+function renderVocabulary(){
+  const words=DB.get('words'),q=(document.getElementById('vocabSearch')?.value||'').toLowerCase();
+  let f=words;
+  if(S.vocabFilter!=='all')f=f.filter(w=>w.partOfSpeech===S.vocabFilter);
+  if(q)f=f.filter(w=>w.word.toLowerCase().includes(q)||w.definition.toLowerCase().includes(q)||(w.tags||[]).some(t=>t.toLowerCase().includes(q)));
+  f=[...f].sort((a,b)=>b.dateAdded.localeCompare(a.dateAdded));
+  const g=document.getElementById('wordGrid');
+  if(!f.length){g.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📖</div>
+    <h3>${words.length===0?'Chưa có từ vựng nào':'Không tìm thấy từ nào'}</h3>
+    <p>${words.length===0?'Nhấn "+ Thêm từ mới" để bắt đầu!':'Thử từ khóa khác.'}</p></div>`;return;}
+  g.innerHTML=f.map(w=>`<div class="word-card">
+    ${w.image?`<img class="word-img" src="${w.image}" alt="${esc(w.word)}" onclick="viewImg('${w.image}')">`:'' }
+    <div class="word-card-header"><div class="word-text">${esc(w.word)}</div><span class="word-pos">${POS[w.partOfSpeech]||w.partOfSpeech}</span></div>
+    ${w.pronunciation?`<div class="word-pronun">${esc(w.pronunciation)}</div>`:''}
+    <div class="word-def">${esc(w.definition)}</div>
+    ${w.example?`<div class="word-ex">"${esc(w.example)}"</div>`:''}
+    ${(w.tags||[]).length?`<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px">${w.tags.map(t=>`<span class="badge bdg-blue">${esc(t)}</span>`).join('')}</div>`:''}
+    <div class="word-meta"><span class="word-date">📅 ${fmtDate(w.dateAdded)}</span>
+      <div class="word-actions">
+        <button class="icon-btn" onclick="openEditWord('${w.id}')">✏️</button>
+        <button class="icon-btn danger" onclick="deleteWord('${w.id}')">🗑️</button>
+      </div></div></div>`).join('');
+}
+
+function openAddWord(){
+  S.editId=null;S.wordTags=[];S.wordImg=null;
+  document.getElementById('modalWordTitle').textContent='➕ Thêm từ mới';
+  ['wordInput','wordPronun','wordDef','wordEx'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('wordPos').value='noun';
+  document.getElementById('wordImgPlaceholder').style.display='';
+  document.getElementById('wordImgPreviewWrap').style.display='none';
+  document.getElementById('wordImgArea').classList.remove('has-image');
+  renderTagsInput();openModal('modalWord');
+  setTimeout(()=>document.getElementById('wordInput').focus(),300);
+}
+
+function openEditWord(id){
+  const w=DB.get('words').find(x=>x.id===id);if(!w)return;
+  S.editId=id;S.wordTags=[...(w.tags||[])];S.wordImg=w.image||null;
+  document.getElementById('modalWordTitle').textContent='✏️ Chỉnh sửa từ';
+  document.getElementById('wordInput').value=w.word;
+  document.getElementById('wordPronun').value=w.pronunciation||'';
+  document.getElementById('wordPos').value=w.partOfSpeech;
+  document.getElementById('wordDef').value=w.definition;
+  document.getElementById('wordEx').value=w.example||'';
+  if(w.image){document.getElementById('wordImgPreview').src=w.image;
+    document.getElementById('wordImgPlaceholder').style.display='none';
+    document.getElementById('wordImgPreviewWrap').style.display='';
+    document.getElementById('wordImgArea').classList.add('has-image');}
+  else{document.getElementById('wordImgPlaceholder').style.display='';
+    document.getElementById('wordImgPreviewWrap').style.display='none';
+    document.getElementById('wordImgArea').classList.remove('has-image');}
+  renderTagsInput();openModal('modalWord');
+}
+
+async function handleWordImg(e){
+  const file=e.target.files[0];if(!file)return;
+  const b64=await compressImg(file);S.wordImg=b64;
+  document.getElementById('wordImgPreview').src=b64;
+  document.getElementById('wordImgPlaceholder').style.display='none';
+  document.getElementById('wordImgPreviewWrap').style.display='';
+  document.getElementById('wordImgArea').classList.add('has-image');
+  e.target.value='';
+}
+
+function removeWordImg(e){e.stopPropagation();S.wordImg=null;
+  document.getElementById('wordImgPlaceholder').style.display='';
+  document.getElementById('wordImgPreviewWrap').style.display='none';
+  document.getElementById('wordImgArea').classList.remove('has-image');}
+
+function saveWord(){
+  const word=document.getElementById('wordInput').value.trim();
+  const def=document.getElementById('wordDef').value.trim();
+  if(!word||!def){showToast('Vui lòng nhập từ và định nghĩa!','error');return;}
+  const words=DB.get('words');
+  const obj={word,definition:def,pronunciation:document.getElementById('wordPronun').value.trim(),
+    partOfSpeech:document.getElementById('wordPos').value,example:document.getElementById('wordEx').value.trim(),
+    tags:[...S.wordTags],dateAdded:todayStr(),image:S.wordImg};
+  if(S.editId){const i=words.findIndex(w=>w.id===S.editId);if(i!==-1)words[i]={...words[i],...obj};showToast('Đã cập nhật từ ✓','success');}
+  else{words.push({id:DB.id(),...obj});showToast(`Đã thêm "${word}" ✓`,'success');}
+  DB.set('words',words);closeModal('modalWord');renderVocabulary();updateStreak();
+}
+
+function deleteWord(id){if(!confirm('Xóa từ này?'))return;DB.set('words',DB.get('words').filter(w=>w.id!==id));renderVocabulary();showToast('Đã xóa từ vựng');}
+
+// Tags
+function renderTagsInput(){
+  const c=document.getElementById('wordTagsInput');
+  c.innerHTML=`${S.wordTags.map((t,i)=>`<span class="tag-item">${esc(t)}<span class="tag-remove" onclick="removeTag(${i})">×</span></span>`).join('')}
+    <input type="text" id="wordTagField" placeholder="${S.wordTags.length?'':'Nhập tag, Enter...'}" onkeydown="handleTagInput(event)">`;
+  document.getElementById('wordTagField')?.focus();
+}
+function focusTagInput(){document.getElementById('wordTagField')?.focus();}
+function handleTagInput(e){
+  if(e.key==='Enter'||e.key===','){e.preventDefault();const v=e.target.value.trim();
+    if(v&&!S.wordTags.includes(v)){S.wordTags.push(v);renderTagsInput();}else e.target.value='';}
+  else if(e.key==='Backspace'&&e.target.value===''&&S.wordTags.length){S.wordTags.pop();renderTagsInput();}
+}
+function removeTag(i){S.wordTags.splice(i,1);renderTagsInput();}
+
+// ============================================================
+//  JOURNAL
+// ============================================================
+function renderJournal(){
+  const journals=DB.get('journals'),q=(document.getElementById('journalSearch')?.value||'').toLowerCase();
+  let f=[...journals].sort((a,b)=>b.date.localeCompare(a.date));
+  if(q)f=f.filter(j=>j.title.toLowerCase().includes(q)||j.content.toLowerCase().includes(q));
+  const CC={daily:'blue',essay:'purple',story:'green',description:'yellow',opinion:'blue',other:'blue'};
+  const list=document.getElementById('journalList');
+  if(!f.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon">✍️</div>
+    <h3>${journals.length===0?'Chưa có bài viết nào':'Không tìm thấy'}</h3>
+    <p>${journals.length===0?'Nhấn "+ Viết bài mới" để bắt đầu!':''}</p></div>`;return;}
+  list.innerHTML=f.map(j=>`<div class="journal-card" onclick="viewJournal('${j.id}')">
+    <div class="journal-card-header"><div class="journal-title">${esc(j.title)}</div><div class="journal-date">${fmtDate(j.date)}</div></div>
+    <div class="journal-preview">${esc(j.content)}</div>
+    <div class="journal-footer">
+      <span class="badge bdg-${CC[j.category]||'blue'}">${CAT[j.category]||j.category}</span>
+      <span class="badge bdg-green">${wc(j.content)} từ</span>
+      ${(j.images||[]).length?`<span class="badge bdg-gray">📸 ${j.images.length} ảnh</span>`:''}
+    </div></div>`).join('');
+}
+
+function openAddJournal(){
+  S.editId=null;S.journalImgs=[];
+  document.getElementById('modalJournalTitle').textContent='✍️ Viết bài mới';
+  ['journalTitle','journalContent'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('journalDate').value=todayStr();
+  document.getElementById('journalCategory').value='daily';
+  document.getElementById('wordCountDisplay').textContent='0 từ';
+  document.getElementById('journalImgPreview').innerHTML='';
+  openModal('modalJournal');setTimeout(()=>document.getElementById('journalTitle').focus(),300);
+}
+
+function updateWordCount(){
+  document.getElementById('wordCountDisplay').textContent=wc(document.getElementById('journalContent').value)+' từ';
+}
+
+async function handleJournalImg(e){
+  for(const file of e.target.files){const b64=await compressImg(file);S.journalImgs.push(b64);}
+  renderJournalImgPreview();e.target.value='';
+}
+
+function renderJournalImgPreview(){
+  document.getElementById('journalImgPreview').innerHTML=S.journalImgs.map((img,i)=>`
+    <div class="multi-img-item">
+      <img src="${img}" onclick="viewImg('${img}')">
+      <button class="img-remove" onclick="removeJournalImg(${i})">✕</button>
+    </div>`).join('');
+}
+function removeJournalImg(i){S.journalImgs.splice(i,1);renderJournalImgPreview();}
+
+function saveJournal(){
+  const title=document.getElementById('journalTitle').value.trim();
+  const content=document.getElementById('journalContent').value.trim();
+  if(!title||!content){showToast('Vui lòng nhập tiêu đề và nội dung!','error');return;}
+  const journals=DB.get('journals');
+  const obj={title,content,date:document.getElementById('journalDate').value||todayStr(),
+    category:document.getElementById('journalCategory').value,images:[...S.journalImgs]};
+  if(S.editId){const i=journals.findIndex(j=>j.id===S.editId);if(i!==-1)journals[i]={...journals[i],...obj};showToast('Đã cập nhật ✓','success');}
+  else{journals.push({id:DB.id(),...obj});showToast('Đã lưu bài viết ✓','success');}
+  DB.set('journals',journals);closeModal('modalJournal');renderJournal();updateStreak();
+}
+
+function viewJournal(id){
+  const j=DB.get('journals').find(x=>x.id===id);if(!j)return;
+  const CC={daily:'blue',essay:'purple',story:'green',description:'yellow',opinion:'blue',other:'blue'};
+  document.getElementById('viewJournalTitle').textContent=j.title;
+  document.getElementById('viewJournalMeta').innerHTML=`
+    <span class="badge bdg-${CC[j.category]||'blue'}">${CAT[j.category]||j.category}</span>
+    <span class="badge bdg-green">${wc(j.content)} từ</span>
+    <span class="badge bdg-blue">📅 ${fmtDate(j.date)}</span>`;
+  document.getElementById('viewJournalContent').textContent=j.content;
+  document.getElementById('viewJournalImages').innerHTML=(j.images||[]).map(img=>`<img src="${img}" style="height:100px;border-radius:7px;cursor:pointer;object-fit:cover" onclick="viewImg('${img}')">`).join('');
+  document.getElementById('editJournalBtn').onclick=()=>{
+    closeModal('modalViewJournal');S.editId=id;S.journalImgs=[...(j.images||[])];
+    document.getElementById('modalJournalTitle').textContent='✏️ Chỉnh sửa bài';
+    document.getElementById('journalTitle').value=j.title;document.getElementById('journalDate').value=j.date;
+    document.getElementById('journalCategory').value=j.category;document.getElementById('journalContent').value=j.content;
+    updateWordCount();renderJournalImgPreview();openModal('modalJournal');};
+  document.getElementById('deleteJournalBtn').onclick=()=>{
+    if(!confirm('Xóa bài viết?'))return;
+    DB.set('journals',DB.get('journals').filter(x=>x.id!==id));closeModal('modalViewJournal');renderJournal();showToast('Đã xóa');};
+  openModal('modalViewJournal');
+}
+
+// ============================================================
+//  LESSONS
+// ============================================================
+function setLF(el,f){document.querySelectorAll('#lessonFilters .filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');S.lessonFilter=f;renderLessons()}
+
+function renderLessons(){
+  const lessons=DB.get('lessons'),q=(document.getElementById('lessonSearch')?.value||'').toLowerCase();
+  let f=[...lessons].sort((a,b)=>b.date.localeCompare(a.date));
+  if(S.lessonFilter!=='all')f=f.filter(l=>l.category===S.lessonFilter);
+  if(q)f=f.filter(l=>l.title.toLowerCase().includes(q)||l.content.toLowerCase().includes(q));
+  const CC={grammar:'purple',pronunciation:'blue',listening:'green',writing:'yellow',other:'blue'};
+  const CI={grammar:'📝',pronunciation:'🎤',listening:'🎧',writing:'✍️',other:'📌'};
+  const CL={grammar:'#8b5cf6',pronunciation:'var(--blue)',listening:'var(--green)',writing:'var(--yellow)',other:'var(--muted)'};
+  const g=document.getElementById('lessonGrid');
+  if(!f.length){g.innerHTML=`<div class="empty-state"><div class="empty-icon">📚</div>
+    <h3>${lessons.length===0?'Chưa có bài giảng nào':'Không tìm thấy'}</h3>
+    <p>${lessons.length===0?'Nhấn "+ Thêm bài giảng" để bắt đầu!':''}</p></div>`;return;}
+  g.innerHTML=f.map(l=>`<div class="lesson-card" onclick="viewLesson('${l.id}')" style="border-left-color:${CL[l.category]||'var(--accent)'}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <div style="font-size:14px;font-weight:600">${CI[l.category]||'📌'} ${esc(l.title)}</div>
+      <span class="badge bdg-${CC[l.category]||'blue'}">${CAT[l.category]||l.category}</span>
+    </div>
+    <div style="font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(l.content)}</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:7px">📅 ${fmtDate(l.date)}</div></div>`).join('');
+}
+
+function openAddLesson(){
+  S.editId=null;document.getElementById('modalLessonTitle').textContent='📚 Thêm bài giảng';
+  ['lessonTitle','lessonContent'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('lessonCategory').value='grammar';document.getElementById('lessonDate').value=todayStr();
+  openModal('modalLesson');setTimeout(()=>document.getElementById('lessonTitle').focus(),300);
+}
+
+function saveLesson(){
+  const title=document.getElementById('lessonTitle').value.trim();const content=document.getElementById('lessonContent').value.trim();
+  if(!title||!content){showToast('Vui lòng nhập tiêu đề và nội dung!','error');return;}
+  const lessons=DB.get('lessons');
+  const obj={title,content,category:document.getElementById('lessonCategory').value,date:document.getElementById('lessonDate').value||todayStr()};
+  if(S.editId){const i=lessons.findIndex(l=>l.id===S.editId);if(i!==-1)lessons[i]={...lessons[i],...obj};showToast('Đã cập nhật ✓','success');}
+  else{lessons.push({id:DB.id(),...obj});showToast('Đã lưu bài giảng ✓','success');}
+  DB.set('lessons',lessons);closeModal('modalLesson');renderLessons();
+}
+
+function viewLesson(id){
+  const l=DB.get('lessons').find(x=>x.id===id);if(!l)return;
+  const CC={grammar:'purple',pronunciation:'blue',listening:'green',writing:'yellow',other:'blue'};
+  document.getElementById('viewLessonTitle').textContent=l.title;
+  document.getElementById('viewLessonMeta').innerHTML=`
+    <span class="badge bdg-${CC[l.category]||'blue'}">${CAT[l.category]||l.category}</span>
+    <span class="badge bdg-blue">📅 ${fmtDate(l.date)}</span>`;
+  document.getElementById('viewLessonContent').textContent=l.content;
+  document.getElementById('editLessonBtn').onclick=()=>{
+    closeModal('modalViewLesson');S.editId=id;
+    document.getElementById('modalLessonTitle').textContent='✏️ Chỉnh sửa bài giảng';
+    document.getElementById('lessonTitle').value=l.title;document.getElementById('lessonCategory').value=l.category;
+    document.getElementById('lessonDate').value=l.date;document.getElementById('lessonContent').value=l.content;
+    openModal('modalLesson');};
+  document.getElementById('deleteLessonBtn').onclick=()=>{
+    if(!confirm('Xóa bài giảng?'))return;
+    DB.set('lessons',DB.get('lessons').filter(x=>x.id!==id));closeModal('modalViewLesson');renderLessons();showToast('Đã xóa');};
+  openModal('modalViewLesson');
+}
+
+// ============================================================
+//  SUBJECTS
+// ============================================================
+function renderSubjects(){
+  const subjects=DB.get('subjects');
+  const list=document.getElementById('subjectList');
+  if(!subjects.length){list.innerHTML=`<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Nhấn "+ Thêm môn học" để bắt đầu</div>`;return;}
+  const notes=DB.get('subjectNotes');
+  list.innerHTML=subjects.map(s=>{
+    const cnt=notes.filter(n=>n.subjectId===s.id).length;
+    return`<div class="subject-item${S.selectedSubjectId===s.id?' active':''}" 
+      style="border-left-color:${s.color}" onclick="selectSubject('${s.id}')">
+      <span class="subject-icon">${s.icon||'📁'}</span>
+      <div style="flex:1"><div class="subject-name">${esc(s.name)}</div>
+        ${s.desc?`<div style="font-size:11px;color:var(--muted)">${esc(s.desc)}</div>`:''}
+      </div>
+      <span class="subject-count">${cnt}</span>
+    </div>`;}).join('');
+  if(S.selectedSubjectId)renderSubjectNotes(S.selectedSubjectId);
+}
+
+function selectSubject(id){
+  S.selectedSubjectId=id;
+  document.querySelectorAll('.subject-item').forEach(el=>el.classList.remove('active'));
+  document.querySelector(`.subject-item[onclick="selectSubject('${id}')"]`)?.classList.add('active');
+  renderSubjectNotes(id);
+}
+
+function renderSubjectNotes(subjectId){
+  const subjects=DB.get('subjects');const notes=DB.get('subjectNotes');
+  const subject=subjects.find(s=>s.id===subjectId);if(!subject)return;
+  const subNotes=notes.filter(n=>n.subjectId===subjectId).sort((a,b)=>b.date.localeCompare(a.date));
+  const panel=document.getElementById('subjectNotesPanel');
+  panel.innerHTML=`
+    <div class="card">
+      <div class="card-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">${subject.icon||'📁'}</span>
+          <div>
+            <div style="font-size:15px;font-weight:600">${esc(subject.name)}</div>
+            ${subject.desc?`<div style="font-size:11px;color:var(--muted)">${esc(subject.desc)}</div>`:''}
+          </div>
+        </div>
+        <div style="display:flex;gap:7px">
+          <button class="btn btn-primary btn-sm" onclick="openAddSN('${subjectId}')">➕ Ghi chú mới</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteSubject('${subjectId}')">🗑️</button>
+        </div>
+      </div>
+      <div class="card-body">
+        ${subNotes.length===0?`<div class="empty-state" style="padding:30px 0"><div class="empty-icon">📝</div>
+          <p>Chưa có ghi chú nào.<br>Nhấn "+ Ghi chú mới" để bắt đầu!</p></div>`:
+          subNotes.map(n=>`<div class="subject-note-card" onclick="viewSN('${n.id}')">
+            <div class="sn-title">${esc(n.title)}</div>
+            <div class="sn-preview">${esc(n.content)}</div>
+            <div class="sn-footer">
+              <span class="badge bdg-gray">📅 ${fmtDate(n.date)}</span>
+              ${(n.images||[]).length?`<span class="badge bdg-blue">📸 ${n.images.length} ảnh</span>`:''}
+              ${(n.links||[]).length?`<span class="badge bdg-green">🔗 ${n.links.length} link</span>`:''}
+            </div>
+            ${(n.images||[]).length?`<div class="sn-images">${n.images.slice(0,4).map(img=>`<img class="sn-thumb" src="${img}" onclick="event.stopPropagation();viewImg('${img}')">`).join('')}</div>`:''}
+            ${(n.links||[]).length?`<div class="sn-links">${n.links.map(l=>`<a class="sn-link" href="${esc(l.url)}" target="_blank" onclick="event.stopPropagation()">🔗 ${esc(l.name||l.url)}</a>`).join('')}</div>`:''}
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function openAddSubject(){
+  S.editId=null;document.getElementById('modalSubjectTitle').textContent='📁 Thêm môn học';
+  document.getElementById('subjectName').value='';document.getElementById('subjectIcon').value='📚';
+  document.getElementById('subjectDesc').value='';S.selectedSubjectColor=SUBJECT_COLORS[0];
+  renderColorSwatches();openModal('modalSubject');setTimeout(()=>document.getElementById('subjectName').focus(),300);
+}
+
+function renderColorSwatches(){
+  document.getElementById('subjectColorSwatches').innerHTML=SUBJECT_COLORS.map(c=>`
+    <div class="color-swatch${S.selectedSubjectColor===c?' selected':''}" style="background:${c}" onclick="S.selectedSubjectColor='${c}';renderColorSwatches()"></div>`).join('');
+}
+
+function saveSubject(){
+  const name=document.getElementById('subjectName').value.trim();if(!name){showToast('Nhập tên môn học!','error');return;}
+  const subjects=DB.get('subjects');
+  const obj={name,icon:document.getElementById('subjectIcon').value||'📁',color:S.selectedSubjectColor,desc:document.getElementById('subjectDesc').value.trim()};
+  subjects.push({id:DB.id(),...obj});
+  DB.set('subjects',subjects);closeModal('modalSubject');renderSubjects();showToast(`Đã thêm môn ${name} ✓`,'success');
+}
+
+function deleteSubject(id){
+  if(!confirm('Xóa môn học này và tất cả ghi chú?'))return;
+  DB.set('subjects',DB.get('subjects').filter(s=>s.id!==id));
+  DB.set('subjectNotes',DB.get('subjectNotes').filter(n=>n.subjectId!==id));
+  if(S.selectedSubjectId===id){S.selectedSubjectId=null;document.getElementById('subjectNotesPanel').innerHTML=`<div class="empty-state" style="padding:60px 20px"><div class="empty-icon">📁</div><h3>Chọn môn học</h3></div>`;}
+  renderSubjects();showToast('Đã xóa môn học');
+}
+
+function openAddSN(subjectId){
+  S.editId=null;S.snImgs=[];S.snLinks=[];
+  document.getElementById('modalSNTitle').textContent='📝 Thêm ghi chú';
+  ['snTitle','snContent'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('snDate').value=todayStr();
+  document.getElementById('snImgPreview').innerHTML='';
+  document.getElementById('snLinkList').innerHTML='';
+  document.querySelector('#modalSubjectNote [data-subject-id]')?.setAttribute('data-subject-id',subjectId);
+  openModal('modalSubjectNote');
+  document.getElementById('modalSubjectNote').dataset.subjectId=subjectId;
+  setTimeout(()=>document.getElementById('snTitle').focus(),300);
+}
+
+async function handleSNImg(e){
+  for(const file of e.target.files){const b64=await compressImg(file);S.snImgs.push(b64);}
+  renderSNImgPreview();e.target.value='';
+}
+
+function renderSNImgPreview(){
+  document.getElementById('snImgPreview').innerHTML=S.snImgs.map((img,i)=>`
+    <div class="multi-img-item"><img src="${img}" onclick="viewImg('${img}')">
+      <button class="img-remove" onclick="S.snImgs.splice(${i},1);renderSNImgPreview()">✕</button></div>`).join('');
+}
+
+function addLinkRow(){
+  S.snLinks.push({name:'',url:''});renderLinkList();
+}
+
+function renderLinkList(){
+  document.getElementById('snLinkList').innerHTML=S.snLinks.map((l,i)=>`
+    <div class="link-item">
+      <input type="text" placeholder="Tên file/tài liệu" value="${esc(l.name)}" oninput="S.snLinks[${i}].name=this.value" style="flex:0.4">
+      <input type="url" placeholder="Link (Google Drive, OneDrive...)" value="${esc(l.url)}" oninput="S.snLinks[${i}].url=this.value" style="flex:1">
+      <button class="icon-btn danger" onclick="S.snLinks.splice(${i},1);renderLinkList()">✕</button>
+    </div>`).join('');
+}
+
+function saveSubjectNote(){
+  const title=document.getElementById('snTitle').value.trim();const content=document.getElementById('snContent').value.trim();
+  if(!title||!content){showToast('Vui lòng nhập tiêu đề và nội dung!','error');return;}
+  const subjectId=document.getElementById('modalSubjectNote').dataset.subjectId;
+  const notes=DB.get('subjectNotes');
+  const obj={title,content,date:document.getElementById('snDate').value||todayStr(),
+    subjectId,images:[...S.snImgs],links:S.snLinks.filter(l=>l.url.trim())};
+  if(S.editId){const i=notes.findIndex(n=>n.id===S.editId);if(i!==-1)notes[i]={...notes[i],...obj};showToast('Đã cập nhật ✓','success');}
+  else{notes.push({id:DB.id(),...obj});showToast('Đã lưu ghi chú ✓','success');}
+  DB.set('subjectNotes',notes);closeModal('modalSubjectNote');
+  if(S.selectedSubjectId)renderSubjectNotes(S.selectedSubjectId);
+}
+
+function viewSN(id){
+  const n=DB.get('subjectNotes').find(x=>x.id===id);if(!n)return;
+  document.getElementById('viewSNTitle').textContent=n.title;
+  document.getElementById('viewSNMeta').innerHTML=`<span class="badge bdg-blue">📅 ${fmtDate(n.date)}</span>`;
+  document.getElementById('viewSNContent').textContent=n.content;
+  document.getElementById('viewSNImages').innerHTML=(n.images||[]).map(img=>`<img src="${img}" style="height:100px;border-radius:7px;cursor:pointer;object-fit:cover" onclick="viewImg('${img}')">`).join('');
+  document.getElementById('viewSNLinks').innerHTML=(n.links||[]).length?`<div style="font-size:13px;font-weight:600;margin-bottom:6px">🔗 Tài liệu đính kèm</div>`+
+    n.links.map(l=>`<a class="sn-link" href="${esc(l.url)}" target="_blank">🔗 ${esc(l.name||l.url)}</a>`).join(''):'';
+  document.getElementById('editSNBtn').onclick=()=>{
+    closeModal('modalViewSN');S.editId=id;S.snImgs=[...(n.images||[])];S.snLinks=[...(n.links||[])];
+    document.getElementById('modalSNTitle').textContent='✏️ Chỉnh sửa ghi chú';
+    document.getElementById('snTitle').value=n.title;document.getElementById('snDate').value=n.date;
+    document.getElementById('snContent').value=n.content;
+    document.getElementById('modalSubjectNote').dataset.subjectId=n.subjectId;
+    renderSNImgPreview();renderLinkList();openModal('modalSubjectNote');};
+  document.getElementById('deleteSNBtn').onclick=()=>{
+    if(!confirm('Xóa ghi chú này?'))return;
+    DB.set('subjectNotes',DB.get('subjectNotes').filter(x=>x.id!==id));
+    closeModal('modalViewSN');if(S.selectedSubjectId)renderSubjectNotes(S.selectedSubjectId);showToast('Đã xóa');};
+  openModal('modalViewSN');
+}
+
+// ============================================================
+//  STUDY ROOM
+// ============================================================
+const PRESETS=[
+  {name:'Lofi Hip Hop',icon:'🎵',url:'https://www.youtube.com/watch?v=jfKfPfyJRdk'},
+  {name:'Café Jazz',icon:'☕',url:'https://www.youtube.com/watch?v=BzIh1_PeWk4'},
+  {name:'Rain Sounds',icon:'🌧️',url:'https://www.youtube.com/watch?v=q76bMs-NwRk'},
+  {name:'Ocean Waves',icon:'🌊',url:'https://www.youtube.com/watch?v=bn9F19Hi1Lk'},
+  {name:'Deep Focus',icon:'🧠',url:'https://www.youtube.com/watch?v=5qap5aO4i9A'},
+  {name:'Forest Sounds',icon:'🌿',url:'https://www.youtube.com/watch?v=xNN7iTA57jM'},
+  {name:'Study With Me',icon:'📚',url:'https://www.youtube.com/watch?v=w9p6nJbGuvY'},
+  {name:'Piano Music',icon:'🎹',url:'https://www.youtube.com/watch?v=4oStw0r33so'},
+];
+
+const TIPS=[
+  'Học từ vựng theo nhóm chủ đề giúp não bộ ghi nhớ lâu hơn 40%.',
+  'Kỹ thuật Pomodoro: 25 phút học tập trung + 5 phút nghỉ ngơi.',
+  'Viết nhật ký tiếng Anh mỗi ngày là cách luyện tập tuyệt vời nhất!',
+  'Nghe nhạc không lời (instrumental) giúp tăng khả năng tập trung.',
+  'Lặp lại từ mới sau 1 ngày, 3 ngày, 7 ngày và 30 ngày để nhớ lâu.',
+  'Đọc to khi học phát âm giúp kích hoạt cả thính giác và vận động.',
+  'Ghi chú bằng tay hiệu quả hơn gõ máy tính khi cần nhớ sâu.',
+  'Học vào buổi sáng khi não tươi tỉnh giúp tiếp thu tốt hơn.',
+];
+
+let ytCurrent='';
+
+function getYTId(url){const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);return m?m[1]:null;}
+
+function playYT(url){
+  const u=url||document.getElementById('ytUrlInput').value.trim();
+  const id=getYTId(u);
+  if(!id){showToast('Link YouTube không hợp lệ!','error');return;}
+  ytCurrent=id;
+  document.getElementById('ytPlayerWrap').innerHTML=
+    `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&loop=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+}
+
+function renderStudyRoom(){
+  document.getElementById('presetsGrid').innerHTML=PRESETS.map(p=>`
+    <button class="preset-btn" onclick="playYT('${p.url}')">
+      <span class="pb-icon">${p.icon}</span>${p.name}
+    </button>`).join('');
+  const tip=TIPS[Math.floor(Math.random()*TIPS.length)];
+  document.getElementById('studyTip').textContent=tip;
+  initPomo();
+}
+
+// POMODORO
+const pomo={mode:'work',timeLeft:25*60,total:25*60,interval:null,running:false,cycles:0,work:25,brk:5,lng:15};
+
+function setPomoMode(mode){
+  if(pomo.running)clearInterval(pomo.interval);pomo.running=false;pomo.mode=mode;
+  document.querySelectorAll('.pomo-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(`tab${mode.charAt(0).toUpperCase()+mode.slice(1)}`)?.classList.add('active');
+  const mins=mode==='work'?pomo.work:mode==='break'?pomo.brk:pomo.lng;
+  pomo.timeLeft=mins*60;pomo.total=mins*60;
+  document.getElementById('pomoBtn').textContent='▶ Bắt đầu';
+  updatePomoDisplay();
+}
+
+function updatePomoSettings(){
+  pomo.work=parseInt(document.getElementById('pomoWork').value)||25;
+  pomo.brk=parseInt(document.getElementById('pomoBreak').value)||5;
+  setPomoMode(pomo.mode);
+}
+
+function togglePomo(){
+  if(pomo.running){clearInterval(pomo.interval);pomo.running=false;document.getElementById('pomoBtn').textContent='▶ Tiếp tục';}
+  else{pomo.running=true;document.getElementById('pomoBtn').textContent='⏸ Dừng';
+    pomo.interval=setInterval(()=>{
+      pomo.timeLeft--;updatePomoDisplay();
+      if(pomo.timeLeft<=0){clearInterval(pomo.interval);pomo.running=false;
+        if(pomo.mode==='work'){pomo.cycles++;document.getElementById('pomoCycles').textContent=`Chu kỳ: ${pomo.cycles} 🍅`;}
+        playNotifSound();
+        const next=pomo.mode==='work'?'break':'work';
+        showToast(pomo.mode==='work'?'🎉 Hết giờ học! Nghỉ ngơi nhé!':'💪 Nghỉ xong! Tiếp tục học thôi!','success');
+        setTimeout(()=>setPomoMode(next),500);}
+    },1000);}
+}
+
+function resetPomo(){clearInterval(pomo.interval);pomo.running=false;document.getElementById('pomoBtn').textContent='▶ Bắt đầu';
+  setPomoMode(pomo.mode);}
+
+function updatePomoDisplay(){
+  const m=Math.floor(pomo.timeLeft/60),s=pomo.timeLeft%60;
+  document.getElementById('pomoTime').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const labels={work:'Tập trung học',break:'Nghỉ ngắn',long:'Nghỉ dài'};
+  document.getElementById('pomoModeLabel').textContent=labels[pomo.mode]||'';
+  const pct=pomo.timeLeft/pomo.total;const circ=345;
+  const offset=circ*(1-pct);
+  document.getElementById('pomoFg').style.strokeDashoffset=offset;
+  const colors={work:'var(--accent)',break:'var(--green)',long:'var(--blue)'};
+  document.getElementById('pomoFg').style.stroke=colors[pomo.mode]||'var(--accent)';
+}
+
+function initPomo(){updatePomoDisplay();}
+
+function playNotifSound(){
+  try{const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [880,660,880].forEach((freq,i)=>{const o=ctx.createOscillator();const g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.frequency.value=freq;g.gain.setValueAtTime(0.3,ctx.currentTime+i*0.2);
+      g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+i*0.2+0.15);
+      o.start(ctx.currentTime+i*0.2);o.stop(ctx.currentTime+i*0.2+0.15);});}
+  catch(e){}
+}
+
+// ============================================================
+//  QUIZ
+// ============================================================
+function resetQuiz(){S.quiz={started:false,words:[],cur:0,correct:0,wrong:0,flipped:false,done:false};renderQuiz();}
+
+function renderQuiz(){
+  const el=document.getElementById('quizContainer'),words=DB.get('words');
+  if(!S.quiz.started){
+    const tc=words.filter(w=>w.dateAdded===todayStr()).length;
+    el.innerHTML=`<div class="card" style="text-align:center;padding:44px 20px">
+      <div style="font-size:52px;margin-bottom:14px">🧪</div>
+      <h2 style="margin-bottom:7px;font-size:20px">Quiz từ vựng</h2>
+      <p style="color:var(--muted);margin-bottom:22px;font-size:13px">Ôn lại từ bằng flashcard · Nhấn thẻ để lật</p>
+      ${words.length===0?`<p style="color:var(--muted)">Chưa có từ vựng. <a href="#" onclick="go('vocabulary');openAddWord();return false;" style="color:var(--accent)">Thêm từ →</a></p>`:`
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="startQuiz('all')" style="padding:10px 24px">🚀 Tất cả (${words.length} từ)</button>
+        ${tc>0?`<button class="btn btn-secondary" onclick="startQuiz('today')" style="padding:10px 24px">📅 Hôm nay (${tc} từ)</button>`:''}
+      </div>`}
+    </div>`;return;}
+  if(S.quiz.done){
+    const tot=S.quiz.correct+S.quiz.wrong,pct=tot?Math.round(S.quiz.correct/tot*100):0;
+    el.innerHTML=`<div class="card quiz-result">
+      <div class="result-emoji">${pct>=80?'🎉':pct>=50?'💪':'📚'}</div>
+      <h2>${pct}% chính xác</h2>
+      <p>${pct>=80?'Xuất sắc!':pct>=50?'Khá tốt!':'Cố gắng thêm nhé!'}<br>
+        <strong>${S.quiz.correct}/${tot}</strong> từ đã nhớ</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button class="btn btn-primary" onclick="startQuiz('all')" style="padding:10px 20px">🔄 Quiz lại</button>
+        <button class="btn btn-secondary" onclick="go('vocabulary')" style="padding:10px 20px">📖 Từ vựng</button>
+      </div></div>`;return;}
+  const cur=S.quiz.words[S.quiz.cur],tot=S.quiz.words.length,prog=(S.quiz.cur/tot)*100;
+  el.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:12px;color:var(--muted)">Từ ${S.quiz.cur+1} / ${tot}</span>
+      <div style="display:flex;gap:10px;font-size:13px">
+        <span style="color:var(--green);font-weight:600">✅ ${S.quiz.correct}</span>
+        <span style="color:var(--red);font-weight:600">❌ ${S.quiz.wrong}</span>
+      </div>
+    </div>
+    <div class="quiz-progress"><div class="quiz-progress-bar" style="width:${prog}%"></div></div>
+    <div class="flashcard${S.quiz.flipped?' flipped':''}" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          ${cur.image?`<img src="${cur.image}" style="width:80px;height:60px;object-fit:cover;border-radius:8px;margin-bottom:10px;opacity:.85">`:'' }
+          <div class="flashcard-word">${esc(cur.word)}</div>
+          ${cur.pronunciation?`<div class="flashcard-hint">${esc(cur.pronunciation)}</div>`:''}
+          <div class="flashcard-hint" style="margin-top:12px;opacity:.6">👆 Nhấn để xem nghĩa</div>
+        </div>
+        <div class="flashcard-back">
+          <div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">${POS[cur.partOfSpeech]||''}</div>
+          <div class="flashcard-definition">${esc(cur.definition)}</div>
+          ${cur.example?`<div class="flashcard-example">"${esc(cur.example)}"</div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="quiz-actions">
+      ${S.quiz.flipped?`
+        <button class="btn" style="background:var(--rbg);color:var(--red);padding:10px 24px" onclick="answerQuiz(false)">❌ Chưa nhớ</button>
+        <button class="btn" style="background:var(--gbg);color:var(--green);padding:10px 24px" onclick="answerQuiz(true)">✅ Đã nhớ</button>
+      `:`<button class="btn btn-secondary" onclick="flipCard()" style="padding:10px 24px">🔄 Lật thẻ</button>`}
+    </div>`;
+}
+
+function startQuiz(mode){let w=DB.get('words');if(mode==='today')w=w.filter(x=>x.dateAdded===todayStr());
+  w=[...w].sort(()=>Math.random()-.5);S.quiz={started:true,words:w,cur:0,correct:0,wrong:0,flipped:false,done:false};renderQuiz();}
+function flipCard(){S.quiz.flipped=!S.quiz.flipped;renderQuiz();}
+function answerQuiz(ok){if(ok)S.quiz.correct++;else S.quiz.wrong++;S.quiz.cur++;S.quiz.flipped=false;
+  if(S.quiz.cur>=S.quiz.words.length)S.quiz.done=true;renderQuiz();}
+
+// ============================================================
+//  PLANNER
+// ============================================================
+function renderPlanner(){renderMiniCal();renderTaskList();}
+
+function renderMiniCal(){
+  const tasks=DB.get('tasks'),taskDates=new Set(tasks.map(t=>t.date));
+  const now=new Date(),y=now.getFullYear(),mo=now.getMonth();
+  const tod=now.toISOString().slice(0,10),fd=new Date(y,mo,1).getDay(),dim=new Date(y,mo+1,0).getDate();
+  document.getElementById('calMonthLabel').textContent=MONTHS[mo]+' '+y;
+  let html=['CN','T2','T3','T4','T5','T6','T7'].map(d=>`<div class="cal-hdr">${d}</div>`).join('');
+  for(let i=0;i<fd;i++)html+='<div></div>';
+  for(let d=1;d<=dim;d++){
+    const ds=`${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cls=['cal-day',ds===tod?'today':'',ds===S.planner.date&&ds!==tod?'selected':'',taskDates.has(ds)&&ds!==tod?'has-dot':''].filter(Boolean).join(' ');
+    html+=`<div class="${cls}" onclick="selPlanDate('${ds}')">${d}</div>`;}
+  document.getElementById('miniCalendar').innerHTML=html;
+  document.getElementById('selectedDateLabel').textContent='Đang xem: '+fmtDate(S.planner.date);
+}
+
+function selPlanDate(ds){S.planner.date=ds;renderMiniCal();renderTaskList();}
+
+function renderTaskList(){
+  const tasks=DB.get('tasks'),date=S.planner.date;
+  const f=tasks.filter(t=>t.date===date).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  document.getElementById('plannerDateTitle').textContent='📅 '+fmtDate(date);
+  const list=document.getElementById('plannerList');
+  if(!f.length){list.innerHTML=`<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Không có nhiệm vụ nào.<br>Nhấn <strong>+ Thêm</strong> để lên kế hoạch!</div>`;return;}
+  list.innerHTML=f.map(t=>`<div class="planner-item${t.completed?' done':''}">
+    <div class="planner-check${t.completed?' done':''}" onclick="toggleTask('${t.id}')">${t.completed?'✓':''}</div>
+    <div class="planner-info">
+      <div class="planner-title${t.completed?' done':''}">${TICO[t.type]||'📌'} ${esc(t.title)}</div>
+      ${t.time?`<div class="planner-meta">⏰ ${t.time}</div>`:''}
+    </div>
+    <button class="icon-btn danger" onclick="deleteTask('${t.id}')">🗑️</button></div>`).join('');
+}
+
+function openAddTask(){
+  ['taskTitle'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('taskDate').value=S.planner.date||todayStr();
+  document.getElementById('taskTime').value='';document.getElementById('taskType').value='vocabulary';
+  openModal('modalTask');setTimeout(()=>document.getElementById('taskTitle').focus(),300);
+}
+
+function saveTask(){
+  const title=document.getElementById('taskTitle').value.trim();if(!title){showToast('Nhập tên nhiệm vụ!','error');return;}
+  const tasks=DB.get('tasks');
+  tasks.push({id:DB.id(),title,date:document.getElementById('taskDate').value||todayStr(),
+    time:document.getElementById('taskTime').value,type:document.getElementById('taskType').value,completed:false});
+  DB.set('tasks',tasks);closeModal('modalTask');renderPlanner();showToast('Đã thêm nhiệm vụ ✓','success');
+}
+
+function toggleTask(id){
+  const tasks=DB.get('tasks'),i=tasks.findIndex(t=>t.id===id);
+  if(i!==-1){tasks[i].completed=!tasks[i].completed;DB.set('tasks',tasks);
+    if(S.section==='planner')renderPlanner();if(S.section==='dashboard')renderDashboard();
+    if(tasks[i].completed)showToast('Hoàn thành! 🎉','success');updateStreak();}
+}
+
+function deleteTask(id){if(!confirm('Xóa?'))return;DB.set('tasks',DB.get('tasks').filter(t=>t.id!==id));renderPlanner();showToast('Đã xóa');}
+
+// ============================================================
+//  STATS
+// ============================================================
+function renderStats(){
+  const words=DB.get('words'),journals=DB.get('journals'),lessons=DB.get('lessons'),tasks=DB.get('tasks');
+  const streak=calcStreak(),tw=journals.reduce((s,j)=>s+wc(j.content),0);
+  document.getElementById('statsCards').innerHTML=[
+    {ic:'📖',v:words.length,l:'Tổng từ vựng'},{ic:'✍️',v:journals.length,l:'Bài đã viết'},
+    {ic:'📝',v:tw.toLocaleString(),l:'Tổng từ đã viết'},{ic:'📚',v:lessons.length,l:'Bài giảng'},
+    {ic:'🔥',v:streak,l:'Ngày streak'},{ic:'✅',v:tasks.filter(t=>t.completed).length,l:'Nhiệm vụ xong'},
+  ].map(s=>`<div class="stat-card"><div class="stat-icon">${s.ic}</div><div class="stat-value">${s.v}</div><div class="stat-label">${s.l}</div></div>`).join('');
+  renderWeekChart('statsChart');
+  const pc={};words.forEach(w=>{pc[w.partOfSpeech]=(pc[w.partOfSpeech]||0)+1;});
+  const pclr={noun:'#6366f1',verb:'#10b981',adjective:'#f59e0b',adverb:'#3b82f6',phrase:'#8b5cf6',other:'#64748b'};
+  const tot=words.length||1;
+  document.getElementById('posChart').innerHTML=Object.entries(pc).sort((a,b)=>b[1]-a[1]).map(([p,c])=>`
+    <div style="margin-bottom:11px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:12px;font-weight:500">${POS[p]||p}</span>
+        <span style="font-size:12px;color:var(--muted)">${c} từ</span>
+      </div>
+      <div style="background:var(--border);height:7px;border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${(c/tot)*100}%;background:${pclr[p]||'var(--accent)'};border-radius:4px"></div>
+      </div></div>`).join('')||'<p style="color:var(--muted);font-size:13px">Chưa có dữ liệu</p>';
+  const am={};words.forEach(w=>{am[w.dateAdded]=(am[w.dateAdded]||0)+1;});
+  journals.forEach(j=>{am[j.date]=(am[j.date]||0)+1;});
+  tasks.filter(t=>t.completed).forEach(t=>{am[t.date]=(am[t.date]||0)+1;});
+  const hm=document.getElementById('heatmap'),now=new Date();
+  const cells=[];
+  for(let i=89;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);
+    const ds=d.toISOString().slice(0,10),c=am[ds]||0,lv=c===0?0:c<=2?1:c<=4?2:c<=6?3:4;
+    cells.push(`<div class="heat-cell${lv?' l'+lv:''}" title="${ds}: ${c} hoạt động"></div>`);}
+  hm.innerHTML=cells.join('');
+}
+
+// ============================================================
+//  MODALS
+// ============================================================
+function openModal(id){const o=document.getElementById(id);o.style.display='flex';requestAnimationFrame(()=>o.classList.add('show'));document.body.style.overflow='hidden';}
+function closeModal(id){const o=document.getElementById(id);o.classList.remove('show');setTimeout(()=>{o.style.display='none';document.body.style.overflow='';},200);}
+
+document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id);});});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.show').forEach(m=>closeModal(m.id));});
+
+// ============================================================
+//  IMAGE VIEWER
+// ============================================================
+function viewImg(src){
+  const v=document.createElement('div');v.className='img-viewer';
+  v.innerHTML=`<img src="${src}" alt="">`;
+  v.onclick=()=>v.remove();document.body.appendChild(v);}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(msg,type=''){
+  const c=document.getElementById('toastContainer'),t=document.createElement('div');
+  t.className=`toast ${type}`;t.innerHTML=`<span>${type==='success'?'✓':type==='error'?'✕':'ℹ'}</span> ${msg}`;
+  c.appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},3000);}
+
+// ============================================================
+//  INIT
+// ============================================================
+document.querySelectorAll('.modal-overlay').forEach(m=>m.style.display='none');
+renderDashboard();
+updateStreak();
+</script>
+</body>
+</html>
