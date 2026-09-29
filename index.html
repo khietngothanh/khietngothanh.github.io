@@ -321,6 +321,44 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
   .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
   .main{margin-left:0}.grid-2{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}
 }
+
+/* ===== FLOATING MUSIC PLAYER ===== */
+.fp-wrap{position:fixed;bottom:22px;right:22px;z-index:600;width:300px;
+  background:#0f172a;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.45);
+  overflow:hidden;transition:all .3s;user-select:none}
+.fp-wrap.hidden{display:none}
+.fp-wrap.minimized .fp-body{display:none}
+.fp-bar{display:flex;align-items:center;gap:8px;padding:10px 13px;
+  background:rgba(255,255,255,.06);cursor:grab;border-bottom:1px solid rgba(255,255,255,.08)}
+.fp-bar:active{cursor:grabbing}
+.fp-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;flex-shrink:0;animation:pulse 2s infinite}
+.fp-dot.idle{background:#475569;animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.fp-title{flex:1;font-size:12px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-btn{background:none;border:none;color:#94a3b8;cursor:pointer;padding:2px 5px;border-radius:4px;font-size:13px;line-height:1;transition:all .15s}
+.fp-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.fp-body{background:#000}
+.fp-body iframe{width:100%;height:168px;display:block;border:none}
+.fp-now{padding:10px 13px;background:rgba(255,255,255,.03);font-size:11px;color:#64748b}
+.fp-now span{color:#a5b4fc;font-weight:500}
+
+/* ===== PRESET CARDS (editable) ===== */
+.preset-card{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;cursor:pointer;transition:all .15s;text-align:left;font-family:inherit;
+  font-size:13px;font-weight:500;color:var(--text);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:4px}
+.preset-card:hover{border-color:var(--accent);background:var(--abg);box-shadow:var(--shm)}
+.preset-card.playing{border-color:var(--accent);background:var(--abg);box-shadow:0 0 0 2px var(--accent)}
+.preset-card .pc-icon{font-size:20px}
+.preset-card .pc-name{font-size:12px;font-weight:600}
+.preset-card .pc-url{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preset-card .pc-edit{position:absolute;top:6px;right:6px;background:var(--accent);color:#fff;border:none;
+  border-radius:5px;padding:2px 6px;font-size:11px;cursor:pointer;opacity:0;transition:opacity .15s}
+.preset-card:hover .pc-edit{opacity:1}
+.preset-card.edit-mode .pc-edit{opacity:1;background:var(--yellow)}
+.preset-add{background:var(--bg);border:2px dashed var(--border);border-radius:10px;
+  padding:12px 14px;cursor:pointer;transition:all .15s;text-align:center;font-size:22px;
+  color:var(--muted);display:flex;align-items:center;justify-content:center}
+.preset-add:hover{border-color:var(--accent);color:var(--accent);background:var(--abg)}
 </style>
 </head>
 <body>
@@ -894,6 +932,50 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
       <button class="btn btn-secondary" onclick="closeModal('modalViewSN')">Đóng</button>
       <button class="btn btn-primary" id="editSNBtn">✏️ Sửa</button>
       <button class="btn btn-danger" id="deleteSNBtn">🗑️ Xóa</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FLOATING MUSIC PLAYER ===== -->
+<div class="fp-wrap hidden" id="floatPlayer">
+  <div class="fp-bar" id="fpBar">
+    <div class="fp-dot idle" id="fpDot"></div>
+    <div class="fp-title" id="fpTitle">🎵 Chưa phát nhạc</div>
+    <button class="fp-btn" onclick="toggleFPMin()" title="Thu nhỏ/mở rộng" id="fpMinBtn">▾</button>
+    <button class="fp-btn" onclick="closeFP()" title="Đóng">✕</button>
+  </div>
+  <div class="fp-body" id="fpBody">
+    <div id="fpIframeWrap"></div>
+  </div>
+  <div class="fp-now">Đang phát: <span id="fpNowName">—</span></div>
+</div>
+
+<!-- ===== PRESET EDIT MODAL ===== -->
+<div class="modal-overlay" id="modalPreset">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <span class="modal-title" id="modalPresetTitle">🎵 Chỉnh sửa nhạc</span>
+      <button class="modal-close" onclick="closeModal('modalPreset')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Tên hiển thị *</label>
+        <input type="text" class="form-input" id="peName" placeholder="e.g. Lofi của tôi">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Icon (emoji)</label>
+        <input type="text" class="form-input" id="peIcon" placeholder="🎵" maxlength="4" style="font-size:20px;text-align:center;width:70px">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Link YouTube *</label>
+        <input type="url" class="form-input" id="peUrl" placeholder="https://www.youtube.com/watch?v=...">
+        <div class="form-hint">💡 Dán link YouTube bất kỳ — nếu lỗi 153 sẽ có nút mở tab mới</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="peDeleteBtn" style="margin-right:auto">🗑️ Xóa</button>
+      <button class="btn btn-secondary" onclick="closeModal('modalPreset')">Hủy</button>
+      <button class="btn btn-primary" onclick="savePreset()">💾 Lưu</button>
     </div>
   </div>
 </div>
@@ -1474,18 +1556,22 @@ function viewSN(id){
 }
 
 // ============================================================
-//  STUDY ROOM
+//  STUDY ROOM  — Custom presets + Floating player
 // ============================================================
-const PRESETS=[
-  {name:'Lofi Hip Hop',icon:'🎵',url:'https://www.youtube.com/watch?v=jfKfPfyJRdk'},
-  {name:'Café Jazz',icon:'☕',url:'https://www.youtube.com/watch?v=BzIh1_PeWk4'},
-  {name:'Rain Sounds',icon:'🌧️',url:'https://www.youtube.com/watch?v=q76bMs-NwRk'},
-  {name:'Ocean Waves',icon:'🌊',url:'https://www.youtube.com/watch?v=bn9F19Hi1Lk'},
-  {name:'Deep Focus',icon:'🧠',url:'https://www.youtube.com/watch?v=5qap5aO4i9A'},
-  {name:'Forest Sounds',icon:'🌿',url:'https://www.youtube.com/watch?v=xNN7iTA57jM'},
-  {name:'Study With Me',icon:'📚',url:'https://www.youtube.com/watch?v=w9p6nJbGuvY'},
-  {name:'Piano Music',icon:'🎹',url:'https://www.youtube.com/watch?v=4oStw0r33so'},
+
+const DEFAULT_PRESETS=[
+  {id:'p0',name:'Lofi Beats',    icon:'🎵', url:'https://www.youtube.com/watch?v=rUxyKA_-grg'},
+  {id:'p1',name:'Rain & Thunder',icon:'🌧️', url:'https://www.youtube.com/watch?v=nDq6TstdEi8'},
+  {id:'p2',name:'White Noise',   icon:'⬜', url:'https://www.youtube.com/watch?v=nMfPqeZjc2c'},
+  {id:'p3',name:'Deep Focus',    icon:'🧠', url:'https://www.youtube.com/watch?v=WPni755-Krg'},
+  {id:'p4',name:'Piano Relax',   icon:'🎹', url:'https://www.youtube.com/watch?v=2OEL4P1Rz04'},
+  {id:'p5',name:'Jazz Café',     icon:'☕', url:'https://www.youtube.com/watch?v=Dx5qFachd3A'},
+  {id:'p6',name:'Ocean Waves',   icon:'🌊', url:'https://www.youtube.com/watch?v=WHPEKLQID4U'},
+  {id:'p7',name:'Forest Sounds', icon:'🌿', url:'https://www.youtube.com/watch?v=eKFTSSKCzWA'},
 ];
+
+function getPresets(){const s=DB.get('presets');return s.length?s:DEFAULT_PRESETS;}
+function savePresets(p){DB.set('presets',p);}
 
 const TIPS=[
   'Học từ vựng theo nhóm chủ đề giúp não bộ ghi nhớ lâu hơn 40%.',
@@ -1498,28 +1584,187 @@ const TIPS=[
   'Học vào buổi sáng khi não tươi tỉnh giúp tiếp thu tốt hơn.',
 ];
 
-let ytCurrent='';
+let ytCurrentId='', ytCurrentName='';
 
 function getYTId(url){const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);return m?m[1]:null;}
 
-function playYT(url){
-  const u=url||document.getElementById('ytUrlInput').value.trim();
+// ---- Play a video (updates both Study Room view AND floating player) ----
+function playYT(url, name){
+  const u=url||document.getElementById('ytUrlInput')?.value.trim()||'';
   const id=getYTId(u);
   if(!id){showToast('Link YouTube không hợp lệ!','error');return;}
-  ytCurrent=id;
-  document.getElementById('ytPlayerWrap').innerHTML=
-    `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&loop=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+  ytCurrentId=id; ytCurrentName=name||u;
+
+  const embedHTML=buildEmbedHTML(id,u,name);
+
+  // Update Study Room player if on that section
+  const mainWrap=document.getElementById('ytPlayerWrap');
+  if(mainWrap) mainWrap.innerHTML=embedHTML;
+
+  // Always update floating player
+  showFP(id, name||'Đang phát', embedHTML);
+
+  // Highlight active preset card
+  document.querySelectorAll('.preset-card').forEach(c=>{
+    c.classList.toggle('playing', c.dataset.url===u);
+  });
+}
+
+function buildEmbedHTML(id,origUrl,name){
+  const origin=location.origin==='null'||!location.origin?'https://www.youtube.com':location.origin;
+  return`
+    <iframe id="ytIframe"
+      src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
+      allow="autoplay; encrypted-media; fullscreen"
+      allowfullscreen>
+    </iframe>
+    <div id="ytErrMsg" style="display:none;position:absolute;inset:0;background:linear-gradient(135deg,#0f0c29,#302b63);
+      flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;">
+      <div style="font-size:36px">⚠️</div>
+      <div style="color:#fff;font-size:14px;font-weight:600">Video bị chặn embed (Error 153)</div>
+      <div style="color:rgba(255,255,255,.65);font-size:12px;max-width:240px">
+        Video owner tắt tính năng nhúng vào website khác — hãy dùng nút bên dưới để nghe
+      </div>
+      <a href="https://www.youtube.com/watch?v=${id}" target="_blank"
+        style="background:#ff0000;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:6px">
+        ▶ Mở ${name||'video'} trong YouTube
+      </a>
+      <div style="color:rgba(255,255,255,.4);font-size:11px">💡 Mở YouTube rồi thu nhỏ tab, nhạc vẫn chạy</div>
+    </div>`;
+}
+
+// Detect Error 153 via postMessage
+window.addEventListener('message',function(e){
+  if(e.origin!=='https://www.youtube.com')return;
+  try{const d=JSON.parse(e.data||'{}');
+    if(d.event==='infoDelivery'&&d.info&&d.info.errorCode===153){
+      document.querySelectorAll('#ytErrMsg,#fpErrMsg').forEach(el=>{
+        if(el){el.style.display='flex';}
+      });
+      document.querySelectorAll('#ytIframe').forEach(el=>{if(el)el.style.display='none';});
+    }
+  }catch(e){}
+});
+
+// ---- Floating Player ----
+let fpMin=false;
+function showFP(id,name,embedHTML){
+  const fp=document.getElementById('floatPlayer');
+  const wrap=document.getElementById('fpIframeWrap');
+  const dot=document.getElementById('fpDot');
+  fp.classList.remove('hidden');
+  wrap.innerHTML=embedHTML;
+  document.getElementById('fpTitle').textContent='🎵 '+name;
+  document.getElementById('fpNowName').textContent=name;
+  dot.classList.remove('idle');
+  if(fpMin){fp.classList.add('minimized');document.getElementById('fpMinBtn').textContent='▴';}
+  else{fp.classList.remove('minimized');document.getElementById('fpMinBtn').textContent='▾';}
+}
+function closeFP(){
+  document.getElementById('floatPlayer').classList.add('hidden');
+  document.getElementById('fpIframeWrap').innerHTML='';
+  ytCurrentId='';ytCurrentName='';
+  document.getElementById('fpDot').classList.add('idle');
+  document.querySelectorAll('.preset-card').forEach(c=>c.classList.remove('playing'));
+}
+function toggleFPMin(){
+  fpMin=!fpMin;
+  document.getElementById('floatPlayer').classList.toggle('minimized',fpMin);
+  document.getElementById('fpMinBtn').textContent=fpMin?'▴':'▾';
+}
+
+// Draggable floating player
+(function(){
+  let dragging=false,ox=0,oy=0;
+  document.addEventListener('DOMContentLoaded',()=>{
+    const bar=document.getElementById('fpBar');
+    const fp=document.getElementById('floatPlayer');
+    if(!bar||!fp)return;
+    bar.addEventListener('mousedown',e=>{
+      dragging=true;
+      ox=e.clientX-fp.getBoundingClientRect().left;
+      oy=e.clientY-fp.getBoundingClientRect().top;
+      fp.style.transition='none';
+    });
+    document.addEventListener('mousemove',e=>{
+      if(!dragging)return;
+      const x=Math.max(0,Math.min(window.innerWidth-fp.offsetWidth,e.clientX-ox));
+      const y=Math.max(0,Math.min(window.innerHeight-fp.offsetHeight,e.clientY-oy));
+      fp.style.left=x+'px'; fp.style.top=y+'px';
+      fp.style.right='auto'; fp.style.bottom='auto';
+    });
+    document.addEventListener('mouseup',()=>{dragging=false;fp.style.transition='all .3s';});
+  });
+})();
+
+// ---- Preset management ----
+let peEditId=null; // null = adding new
+
+function openAddPreset(){
+  peEditId=null;
+  document.getElementById('modalPresetTitle').textContent='➕ Thêm nhạc mới';
+  document.getElementById('peName').value='';
+  document.getElementById('peIcon').value='🎵';
+  document.getElementById('peUrl').value='';
+  document.getElementById('peDeleteBtn').style.display='none';
+  openModal('modalPreset');
+  setTimeout(()=>document.getElementById('peName').focus(),300);
+}
+
+function openEditPreset(id){
+  const presets=getPresets();const p=presets.find(x=>x.id===id);if(!p)return;
+  peEditId=id;
+  document.getElementById('modalPresetTitle').textContent='✏️ Chỉnh sửa nhạc';
+  document.getElementById('peName').value=p.name;
+  document.getElementById('peIcon').value=p.icon||'🎵';
+  document.getElementById('peUrl').value=p.url;
+  document.getElementById('peDeleteBtn').style.display='';
+  document.getElementById('peDeleteBtn').onclick=()=>deletePreset(id);
+  openModal('modalPreset');
+}
+
+function savePreset(){
+  const name=document.getElementById('peName').value.trim();
+  const url=document.getElementById('peUrl').value.trim();
+  if(!name||!url){showToast('Nhập tên và link YouTube!','error');return;}
+  if(!getYTId(url)){showToast('Link YouTube không hợp lệ!','error');return;}
+  let presets=getPresets();
+  const obj={name,icon:document.getElementById('peIcon').value||'🎵',url};
+  if(peEditId){const i=presets.findIndex(p=>p.id===peEditId);if(i!==-1)presets[i]={...presets[i],...obj};showToast('Đã cập nhật ✓','success');}
+  else{presets.push({id:DB.id(),...obj});showToast('Đã thêm nhạc mới ✓','success');}
+  savePresets(presets);closeModal('modalPreset');renderPresetsGrid();
+}
+
+function deletePreset(id){
+  if(!confirm('Xóa nhạc này?'))return;
+  savePresets(getPresets().filter(p=>p.id!==id));
+  closeModal('modalPreset');renderPresetsGrid();showToast('Đã xóa');
+}
+
+function renderPresetsGrid(){
+  const presets=getPresets();
+  const grid=document.getElementById('presetsGrid');if(!grid)return;
+  grid.innerHTML=presets.map(p=>`
+    <div class="preset-card${ytCurrentId&&getYTId(p.url)===ytCurrentId?' playing':''}" 
+      data-url="${esc(p.url)}" onclick="playYT('${esc(p.url)}','${esc(p.name)}')">
+      <div class="pc-icon">${p.icon||'🎵'}</div>
+      <div class="pc-name">${esc(p.name)}</div>
+      <button class="pc-edit" onclick="event.stopPropagation();openEditPreset('${p.id}')">✏️</button>
+    </div>`).join('')+
+    `<div class="preset-add" onclick="openAddPreset()" title="Thêm nhạc mới">＋</div>`;
 }
 
 function renderStudyRoom(){
-  document.getElementById('presetsGrid').innerHTML=PRESETS.map(p=>`
-    <button class="preset-btn" onclick="playYT('${p.url}')">
-      <span class="pb-icon">${p.icon}</span>${p.name}
-    </button>`).join('');
+  renderPresetsGrid();
   const tip=TIPS[Math.floor(Math.random()*TIPS.length)];
   document.getElementById('studyTip').textContent=tip;
   initPomo();
+  // If currently playing, restore the ytPlayerWrap view
+  if(ytCurrentId&&document.getElementById('ytPlayerWrap')){
+    document.getElementById('ytPlayerWrap').innerHTML=buildEmbedHTML(ytCurrentId,'',ytCurrentName);
+  }
 }
+
 
 // POMODORO
 const pomo={mode:'work',timeLeft:25*60,total:25*60,interval:null,running:false,cycles:0,work:25,brk:5,lng:15};
