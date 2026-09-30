@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>✦ English Learning Hub</title>
+<title>Khiet's Learning Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -359,15 +359,52 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
   padding:12px 14px;cursor:pointer;transition:all .15s;text-align:center;font-size:22px;
   color:var(--muted);display:flex;align-items:center;justify-content:center}
 .preset-add:hover{border-color:var(--accent);color:var(--accent);background:var(--abg)}
+
+/* ===== CUSTOMIZATION MODAL ===== */
+.cust-tabs{display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:10px;margin-bottom:18px}
+.cust-tab{flex:1;padding:7px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;color:var(--muted);border:none;background:none;font-family:inherit;text-align:center}
+.cust-tab.active{background:var(--card);color:var(--text);box-shadow:var(--sh)}
+.cust-panel{display:none}.cust-panel.active{display:block}
+.bg-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.bg-preset-btn{height:50px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.bg-preset-btn:hover,.bg-preset-btn.selected{border-color:var(--text);transform:scale(1.04)}
+.accent-swatches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.accent-swatch{width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.accent-swatch:hover,.accent-swatch.selected{border-color:var(--text);transform:scale(1.15)}
+
+/* ===== PIN OVERLAY ===== */
+#pinOverlay{position:fixed;inset:0;background:rgba(15,23,42,.97);z-index:9999;display:flex;align-items:center;justify-content:center}
+.pin-card{background:var(--card);border-radius:20px;padding:36px 32px;text-align:center;width:320px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.pin-logo{font-size:36px;margin-bottom:8px}
+.pin-title{font-size:18px;font-weight:700;margin-bottom:4px}
+.pin-sub{font-size:12px;color:var(--muted);margin-bottom:22px}
+.pin-input{width:100%;padding:12px;font-size:24px;letter-spacing:8px;text-align:center;border:2px solid var(--border);border-radius:10px;font-family:inherit;margin-bottom:12px;transition:border-color .15s}
+.pin-input:focus{outline:none;border-color:var(--accent)}
+.pin-input.shake{animation:pinShake .4s}
+@keyframes pinShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.pin-err{color:var(--red);font-size:12px;margin-bottom:10px;min-height:16px}
 </style>
 </head>
 <body>
 
+<!-- PIN OVERLAY (shown before page if PIN is set) -->
+<div id="pinOverlay" style="display:none">
+  <div class="pin-card">
+    <div class="pin-logo" id="pinLogoIcon">📚</div>
+    <div class="pin-title" id="pinAppName">Khiet's Learning Hub</div>
+    <div class="pin-sub">Nhập mã PIN để vào trang</div>
+    <input type="password" class="pin-input" id="pinInput" maxlength="4" placeholder="••••"
+      onkeydown="if(event.key==='Enter')submitPin()">
+    <div class="pin-err" id="pinErr"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitPin()">Vào trang</button>
+  </div>
+</div>
+
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sb-logo">
-    <h1>✦ English Hub</h1>
-    <span>Học tiếng Anh mỗi ngày</span>
+    <h1 id="sbLogoText">📚 Khiet's Learning Hub</h1>
+    <span id="sbSubtitle">Học tiếng Anh mỗi ngày</span>
   </div>
   <nav class="sb-nav">
     <div class="nav-sec">Tổng quan</div>
@@ -381,11 +418,14 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
     <div class="nav-sec">Môn học khác</div>
     <div class="nav-item" onclick="go('subjects')"><span class="ic">📁</span>Kho tài liệu</div>
 
-    <div class="nav-sec">Luyện tập & Tools</div>
+    <div class="nav-sec">Luyện tập &amp; Tools</div>
     <div class="nav-item" onclick="go('studyroom')"><span class="ic">🎵</span>Study Room</div>
     <div class="nav-item" onclick="go('quiz')"><span class="ic">🧪</span>Quiz ôn tập</div>
     <div class="nav-item" onclick="go('planner')"><span class="ic">📅</span>Lịch học</div>
     <div class="nav-item" onclick="go('stats')"><span class="ic">📊</span>Thống kê</div>
+
+    <div class="nav-sec">Cài đặt</div>
+    <div class="nav-item" onclick="openCustomize()"><span class="ic">🎨</span>Tùy chỉnh</div>
   </nav>
   <div class="sb-foot">
     <div class="streak-badge">
@@ -503,7 +543,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
             <div style="font-size:13px;font-weight:600;margin-bottom:6px;">🎧 Nhạc học tập</div>
             <div class="presets-grid" id="presetsGrid"></div>
             <div class="yt-input-row" style="margin-top:12px;">
-              <input type="text" id="ytUrlInput" placeholder="Dán link YouTube bất kỳ..." onkeydown="if(e?.key==='Enter'||event.key==='Enter')playYT()">
+              <input type="text" id="ytUrlInput" placeholder="Dán link YouTube bất kỳ..." onkeydown="if(event.key==='Enter')playYT()">
               <button class="btn btn-primary" onclick="playYT()">▶ Phát</button>
             </div>
           </div>
@@ -980,6 +1020,86 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
   </div>
 </div>
 
+<!-- ===== CUSTOMIZATION MODAL ===== -->
+<div class="modal-overlay" id="modalCustomize">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <span class="modal-title">🎨 Tùy chỉnh giao diện</span>
+      <button class="modal-close" onclick="closeModal('modalCustomize')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cust-tabs">
+        <button class="cust-tab active" onclick="setCustTab(0,this)">🖼️ Ảnh nền</button>
+        <button class="cust-tab" onclick="setCustTab(1,this)">🎨 Màu chủ đề</button>
+        <button class="cust-tab" onclick="setCustTab(2,this)">👤 Hồ sơ</button>
+      </div>
+
+      <!-- Tab 0: Background -->
+      <div class="cust-panel active" id="custPanel0">
+        <div class="form-label" style="margin-bottom:8px">Gradient nền</div>
+        <div class="bg-presets" id="bgPresets"></div>
+        <div class="form-group">
+          <label class="form-label">📸 Ảnh nền tùy chỉnh</label>
+          <div class="img-upload-area" onclick="document.getElementById('bgImgFile').click()" style="padding:14px">
+            <div style="font-size:12px;color:var(--muted)">📷 Nhấn để chọn ảnh nền</div>
+          </div>
+          <input type="file" id="bgImgFile" accept="image/*" style="display:none" onchange="handleBgImg(event)">
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="removeBg()">🗑️ Xóa ảnh nền</button>
+      </div>
+
+      <!-- Tab 1: Accent color -->
+      <div class="cust-panel" id="custPanel1">
+        <div class="form-label" style="margin-bottom:10px">Màu nhấn (accent)</div>
+        <div class="accent-swatches" id="accentSwatches"></div>
+        <div class="form-hint" style="margin-top:8px">Màu này ảnh hưởng đến nút, badge, đường viền active...</div>
+      </div>
+
+      <!-- Tab 2: Profile -->
+      <div class="cust-panel" id="custPanel2">
+        <div class="form-group">
+          <label class="form-label">Icon logo</label>
+          <input type="text" class="form-input" id="custLogoIcon" placeholder="📚" maxlength="4" style="font-size:22px;text-align:center;width:70px">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tên hiển thị</label>
+          <input type="text" class="form-input" id="custName" placeholder="Khiet's Learning Hub">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phụ đề</label>
+          <input type="text" class="form-input" id="custSubtitle" placeholder="Học tiếng Anh mỗi ngày">
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="saveProfile()">💾 Lưu hồ sơ</button>
+
+        <hr style="margin:18px 0;border:none;border-top:1px solid var(--border)">
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px">🔒 Mã PIN</div>
+        <div id="custPinSection">
+          <div class="form-group" id="curPinGroup" style="display:none">
+            <label class="form-label">Mã PIN hiện tại</label>
+            <input type="password" class="form-input" id="curPinInput" maxlength="4" placeholder="••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mã PIN mới (4 chữ số)</label>
+            <input type="password" class="form-input" id="newPinInput" maxlength="4" placeholder="••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Xác nhận mã PIN</label>
+            <input type="password" class="form-input" id="confirmPinInput" maxlength="4" placeholder="••••">
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="savePIN()">🔒 Đặt mã PIN</button>
+            <button class="btn btn-danger btn-sm" id="removePinBtn" style="display:none" onclick="removePIN()">🗑️ Xóa PIN</button>
+          </div>
+          <div class="form-hint" style="margin-top:8px;color:var(--yellow)">⚠️ Lưu ý: Đây là bảo mật cơ bản, không dùng cho dữ liệu nhạy cảm</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalCustomize')">Đóng</button>
+    </div>
+  </div>
+</div>
+
 <script>
 'use strict';
 
@@ -989,6 +1109,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 const DB={
   get:(k)=>JSON.parse(localStorage.getItem('elh_'+k)||'[]'),
   set:(k,v)=>localStorage.setItem('elh_'+k,JSON.stringify(v)),
+  getObj:(k,def)=>{try{return JSON.parse(localStorage.getItem('elh_'+k)||'null')||def;}catch(e){return def;}},
+  setObj:(k,v)=>localStorage.setItem('elh_'+k,JSON.stringify(v)),
   id:()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6),
 };
 
@@ -1017,6 +1139,42 @@ const MONTHS=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
 const SUBJECT_COLORS=['#6366f1','#10b981','#f59e0b','#ef4444','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316','#64748b'];
 
 // ============================================================
+//  PIN PROTECTION
+// ============================================================
+function checkPIN(){
+  const pin=localStorage.getItem('elh_pin');
+  const auth=sessionStorage.getItem('elh_auth');
+  if(pin&&auth!=='1'){
+    // Apply saved customization to pin screen logo/name
+    const cust=DB.getObj('customization',{});
+    if(cust.logoIcon)document.getElementById('pinLogoIcon').textContent=cust.logoIcon;
+    if(cust.name)document.getElementById('pinAppName').textContent=cust.name;
+    document.getElementById('pinOverlay').style.display='flex';
+  } else {
+    document.getElementById('pinOverlay').style.display='none';
+    initApp();
+  }
+}
+
+function submitPin(){
+  const val=document.getElementById('pinInput').value;
+  const pin=localStorage.getItem('elh_pin');
+  if(val===pin){
+    sessionStorage.setItem('elh_auth','1');
+    document.getElementById('pinOverlay').style.display='none';
+    initApp();
+  } else {
+    const inp=document.getElementById('pinInput');
+    document.getElementById('pinErr').textContent='Mã PIN không đúng!';
+    inp.classList.remove('shake');
+    void inp.offsetWidth;
+    inp.classList.add('shake');
+    inp.value='';
+    setTimeout(()=>document.getElementById('pinErr').textContent='',2000);
+  }
+}
+
+// ============================================================
 //  NAVIGATION
 // ============================================================
 const PTITLES={dashboard:'🏠 Dashboard',vocabulary:'📖 Từ điển cá nhân',journal:'✍️ Nhật ký viết',
@@ -1043,6 +1201,8 @@ function go(section){
     lessons:renderLessons,subjects:renderSubjects,studyroom:renderStudyRoom,
     quiz:renderQuiz,planner:renderPlanner,stats:renderStats};
   if(renders[section])renders[section]();
+  // Move single iframe based on section
+  placePlayer();
 }
 
 // ============================================================
@@ -1121,7 +1281,7 @@ function renderDashboard(){
   dt.innerHTML=tt.length===0?`<div class="empty-state" style="padding:16px 0"><div class="empty-icon">📅</div>
     <p>Chưa có nhiệm vụ hôm nay!<br><a href="#" onclick="go('planner');openAddTask();return false;" style="color:var(--accent);font-weight:500">Lên kế hoạch →</a></p></div>`:
     tt.slice(0,5).map(t=>`<div class="task-item" onclick="toggleTask('${t.id}')">
-      <div class="task-check ${t.completed?'done':''}">${t.completed?'✓':''}</div>
+      <div class="task-check ${t.completed?'done':''}>${t.completed?'✓':''}</div>
       <span class="task-text ${t.completed?'done':''}">${TICO[t.type]||'📌'} ${esc(t.title)}</span>
       ${t.time?`<span class="task-time">${t.time}</span>`:''}</div>`).join('');
 
@@ -1490,9 +1650,8 @@ function openAddSN(subjectId){
   document.getElementById('snDate').value=todayStr();
   document.getElementById('snImgPreview').innerHTML='';
   document.getElementById('snLinkList').innerHTML='';
-  document.querySelector('#modalSubjectNote [data-subject-id]')?.setAttribute('data-subject-id',subjectId);
-  openModal('modalSubjectNote');
   document.getElementById('modalSubjectNote').dataset.subjectId=subjectId;
+  openModal('modalSubjectNote');
   setTimeout(()=>document.getElementById('snTitle').focus(),300);
 }
 
@@ -1540,7 +1699,7 @@ function viewSN(id){
   document.getElementById('viewSNContent').textContent=n.content;
   document.getElementById('viewSNImages').innerHTML=(n.images||[]).map(img=>`<img src="${img}" style="height:100px;border-radius:7px;cursor:pointer;object-fit:cover" onclick="viewImg('${img}')">`).join('');
   document.getElementById('viewSNLinks').innerHTML=(n.links||[]).length?`<div style="font-size:13px;font-weight:600;margin-bottom:6px">🔗 Tài liệu đính kèm</div>`+
-    n.links.map(l=>`<a class="sn-link" href="${esc(l.url)}" target="_blank">🔗 ${esc(l.name||l.url)}</a>`).join(''):'';
+    n.links.map(l=>`<a class="sn-link" href="${esc(l.url)}" target="_blank">🔗 ${esc(l.name||l.url)}</a>`).join(''):'' ;
   document.getElementById('editSNBtn').onclick=()=>{
     closeModal('modalViewSN');S.editId=id;S.snImgs=[...(n.images||[])];S.snLinks=[...(n.links||[])];
     document.getElementById('modalSNTitle').textContent='✏️ Chỉnh sửa ghi chú';
@@ -1556,7 +1715,7 @@ function viewSN(id){
 }
 
 // ============================================================
-//  STUDY ROOM  — Custom presets + Floating player
+//  STUDY ROOM — Single master iframe
 // ============================================================
 
 const DEFAULT_PRESETS=[
@@ -1584,25 +1743,71 @@ const TIPS=[
   'Học vào buổi sáng khi não tươi tỉnh giúp tiếp thu tốt hơn.',
 ];
 
-let ytCurrentId='', ytCurrentName='';
+// Single global iframe node
+let masterIframe = null;
+let ytCurrentId = '', ytCurrentName = '';
+let fpMin = false;
 
-function getYTId(url){const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);return m?m[1]:null;}
+function getYTId(url){
+  const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);
+  return m?m[1]:null;
+}
 
-// ---- Play a video (updates both Study Room view AND floating player) ----
+// Move the single iframe to correct container based on current section
+function placePlayer(){
+  if(!masterIframe) return;
+  const inStudyRoom = (S.section === 'studyroom');
+  const fp = document.getElementById('floatPlayer');
+  const ytWrap = document.getElementById('ytPlayerWrap');
+  const fpWrap = document.getElementById('fpIframeWrap');
+
+  if(inStudyRoom){
+    // Move iframe to Study Room, hide floating player
+    if(ytWrap && masterIframe.parentNode !== ytWrap){
+      // Remove placeholder if still there
+      const ph = document.getElementById('ytPlaceholder');
+      if(ph) ph.style.display='none';
+      ytWrap.appendChild(masterIframe);
+    }
+    if(fp) fp.classList.add('hidden');
+  } else {
+    // Move iframe to floating player, show it
+    if(fpWrap && masterIframe.parentNode !== fpWrap){
+      fpWrap.appendChild(masterIframe);
+    }
+    if(fp){
+      fp.classList.remove('hidden');
+      document.getElementById('fpDot').classList.remove('idle');
+      if(fpMin){fp.classList.add('minimized');document.getElementById('fpMinBtn').textContent='▴';}
+      else{fp.classList.remove('minimized');document.getElementById('fpMinBtn').textContent='▾';}
+    }
+  }
+}
+
+// Play a YouTube video: create/reuse the single masterIframe
 function playYT(url, name){
-  const u=url||document.getElementById('ytUrlInput')?.value.trim()||'';
-  const id=getYTId(u);
+  const u = url || document.getElementById('ytUrlInput')?.value.trim() || '';
+  const id = getYTId(u);
   if(!id){showToast('Link YouTube không hợp lệ!','error');return;}
-  ytCurrentId=id; ytCurrentName=name||u;
+  ytCurrentId = id;
+  ytCurrentName = name || u;
 
-  const embedHTML=buildEmbedHTML(id,u,name);
+  // Create iframe if it doesn't exist, else update src
+  if(!masterIframe){
+    masterIframe = document.createElement('iframe');
+    masterIframe.id = 'masterYTIframe';
+    masterIframe.setAttribute('allow','autoplay; encrypted-media; fullscreen');
+    masterIframe.setAttribute('allowfullscreen','');
+    masterIframe.style.cssText='width:100%;height:100%;border:none;display:block;';
+  }
+  masterIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
 
-  // Update Study Room player if on that section
-  const mainWrap=document.getElementById('ytPlayerWrap');
-  if(mainWrap) mainWrap.innerHTML=embedHTML;
+  // Update floating player UI
+  document.getElementById('fpTitle').textContent = '🎵 ' + (name || 'Đang phát');
+  document.getElementById('fpNowName').textContent = name || ytCurrentId;
 
-  // Always update floating player
-  showFP(id, name||'Đang phát', embedHTML);
+  // Place iframe in right spot
+  placePlayer();
 
   // Highlight active preset card
   document.querySelectorAll('.preset-card').forEach(c=>{
@@ -1610,95 +1815,91 @@ function playYT(url, name){
   });
 }
 
-function buildEmbedHTML(id,origUrl,name){
-  const origin=location.origin==='null'||!location.origin?'https://www.youtube.com':location.origin;
-  return`
-    <iframe id="ytIframe"
-      src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
-      allow="autoplay; encrypted-media; fullscreen"
-      allowfullscreen>
-    </iframe>
-    <div id="ytErrMsg" style="display:none;position:absolute;inset:0;background:linear-gradient(135deg,#0f0c29,#302b63);
-      flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;">
-      <div style="font-size:36px">⚠️</div>
-      <div style="color:#fff;font-size:14px;font-weight:600">Video bị chặn embed (Error 153)</div>
-      <div style="color:rgba(255,255,255,.65);font-size:12px;max-width:240px">
-        Video owner tắt tính năng nhúng vào website khác — hãy dùng nút bên dưới để nghe
-      </div>
-      <a href="https://www.youtube.com/watch?v=${id}" target="_blank"
-        style="background:#ff0000;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:6px">
-        ▶ Mở ${name||'video'} trong YouTube
-      </a>
-      <div style="color:rgba(255,255,255,.4);font-size:11px">💡 Mở YouTube rồi thu nhỏ tab, nhạc vẫn chạy</div>
-    </div>`;
-}
-
 // Detect Error 153 via postMessage
 window.addEventListener('message',function(e){
   if(e.origin!=='https://www.youtube.com')return;
-  try{const d=JSON.parse(e.data||'{}');
+  try{
+    const d=JSON.parse(e.data||'{}');
     if(d.event==='infoDelivery'&&d.info&&d.info.errorCode===153){
-      document.querySelectorAll('#ytErrMsg,#fpErrMsg').forEach(el=>{
-        if(el){el.style.display='flex';}
-      });
-      document.querySelectorAll('#ytIframe').forEach(el=>{if(el)el.style.display='none';});
+      // Show error overlay — create/replace error UI in the iframe's parent
+      if(masterIframe){
+        const container = masterIframe.parentNode;
+        masterIframe.style.display='none';
+        let errDiv = container ? container.querySelector('.yt-err-msg') : null;
+        if(!errDiv && container){
+          errDiv = document.createElement('div');
+          errDiv.className = 'yt-err-msg';
+          errDiv.style.cssText='position:absolute;inset:0;background:linear-gradient(135deg,#0f0c29,#302b63);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;';
+          errDiv.innerHTML=`<div style="font-size:36px">⚠️</div>
+            <div style="color:#fff;font-size:14px;font-weight:600">Video bị chặn embed (Error 153)</div>
+            <div style="color:rgba(255,255,255,.65);font-size:12px;max-width:240px">Video owner tắt tính năng nhúng vào website khác</div>
+            <a href="https://www.youtube.com/watch?v=${ytCurrentId}" target="_blank"
+              style="background:#ff0000;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:6px">
+              ▶ Mở YouTube
+            </a>
+            <div style="color:rgba(255,255,255,.4);font-size:11px">💡 Mở YouTube rồi thu nhỏ tab, nhạc vẫn chạy</div>`;
+          container.appendChild(errDiv);
+        }
+      }
     }
-  }catch(e){}
+  }catch(err){}
 });
 
-// ---- Floating Player ----
-let fpMin=false;
-function showFP(id,name,embedHTML){
-  const fp=document.getElementById('floatPlayer');
-  const wrap=document.getElementById('fpIframeWrap');
-  const dot=document.getElementById('fpDot');
-  fp.classList.remove('hidden');
-  wrap.innerHTML=embedHTML;
-  document.getElementById('fpTitle').textContent='🎵 '+name;
-  document.getElementById('fpNowName').textContent=name;
-  dot.classList.remove('idle');
-  if(fpMin){fp.classList.add('minimized');document.getElementById('fpMinBtn').textContent='▴';}
-  else{fp.classList.remove('minimized');document.getElementById('fpMinBtn').textContent='▾';}
-}
+// ---- Floating Player controls ----
 function closeFP(){
-  document.getElementById('floatPlayer').classList.add('hidden');
-  document.getElementById('fpIframeWrap').innerHTML='';
+  if(masterIframe){
+    masterIframe.src='about:blank';
+    if(masterIframe.parentNode)masterIframe.parentNode.removeChild(masterIframe);
+    masterIframe=null;
+  }
   ytCurrentId='';ytCurrentName='';
+  document.getElementById('floatPlayer').classList.add('hidden');
   document.getElementById('fpDot').classList.add('idle');
+  document.getElementById('fpTitle').textContent='🎵 Chưa phát nhạc';
+  document.getElementById('fpNowName').textContent='—';
+  // Restore placeholder in study room
+  const ph=document.getElementById('ytPlaceholder');
+  if(ph)ph.style.display='';
   document.querySelectorAll('.preset-card').forEach(c=>c.classList.remove('playing'));
 }
+
 function toggleFPMin(){
   fpMin=!fpMin;
   document.getElementById('floatPlayer').classList.toggle('minimized',fpMin);
   document.getElementById('fpMinBtn').textContent=fpMin?'▴':'▾';
 }
 
-// Draggable floating player
+// Draggable floating player — use direct addEventListener (not DOMContentLoaded)
 (function(){
   let dragging=false,ox=0,oy=0;
-  document.addEventListener('DOMContentLoaded',()=>{
-    const bar=document.getElementById('fpBar');
-    const fp=document.getElementById('floatPlayer');
-    if(!bar||!fp)return;
+  const bar=document.getElementById('fpBar');
+  const fp=document.getElementById('floatPlayer');
+  if(bar&&fp){
     bar.addEventListener('mousedown',e=>{
       dragging=true;
       ox=e.clientX-fp.getBoundingClientRect().left;
       oy=e.clientY-fp.getBoundingClientRect().top;
       fp.style.transition='none';
     });
-    document.addEventListener('mousemove',e=>{
-      if(!dragging)return;
-      const x=Math.max(0,Math.min(window.innerWidth-fp.offsetWidth,e.clientX-ox));
-      const y=Math.max(0,Math.min(window.innerHeight-fp.offsetHeight,e.clientY-oy));
-      fp.style.left=x+'px'; fp.style.top=y+'px';
-      fp.style.right='auto'; fp.style.bottom='auto';
-    });
-    document.addEventListener('mouseup',()=>{dragging=false;fp.style.transition='all .3s';});
+  }
+  document.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    const fpEl=document.getElementById('floatPlayer');
+    if(!fpEl)return;
+    const x=Math.max(0,Math.min(window.innerWidth-fpEl.offsetWidth,e.clientX-ox));
+    const y=Math.max(0,Math.min(window.innerHeight-fpEl.offsetHeight,e.clientY-oy));
+    fpEl.style.left=x+'px'; fpEl.style.top=y+'px';
+    fpEl.style.right='auto'; fpEl.style.bottom='auto';
+  });
+  document.addEventListener('mouseup',()=>{
+    dragging=false;
+    const fpEl=document.getElementById('floatPlayer');
+    if(fpEl)fpEl.style.transition='all .3s';
   });
 })();
 
 // ---- Preset management ----
-let peEditId=null; // null = adding new
+let peEditId=null;
 
 function openAddPreset(){
   peEditId=null;
@@ -1759,12 +1960,12 @@ function renderStudyRoom(){
   const tip=TIPS[Math.floor(Math.random()*TIPS.length)];
   document.getElementById('studyTip').textContent=tip;
   initPomo();
-  // If currently playing, restore the ytPlayerWrap view
-  if(ytCurrentId&&document.getElementById('ytPlayerWrap')){
-    document.getElementById('ytPlayerWrap').innerHTML=buildEmbedHTML(ytCurrentId,'',ytCurrentName);
-  }
+  // When entering study room, ensure iframe is placed here
+  placePlayer();
+  // Show placeholder if nothing playing
+  const ph=document.getElementById('ytPlaceholder');
+  if(ph) ph.style.display = masterIframe ? 'none' : '';
 }
-
 
 // POMODORO
 const pomo={mode:'work',timeLeft:25*60,total:25*60,interval:null,running:false,cycles:0,work:25,brk:5,lng:15};
@@ -2017,11 +2218,194 @@ function showToast(msg,type=''){
   setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},3000);}
 
 // ============================================================
+//  CUSTOMIZATION
+// ============================================================
+const BG_GRADIENTS=[
+  {label:'Mặc định',value:'linear-gradient(135deg,#f1f5f9,#e2e8f0)'},
+  {label:'Peach',value:'linear-gradient(135deg,#ffecd2,#fcb69f)'},
+  {label:'Sky',value:'linear-gradient(135deg,#a1c4fd,#c2e9fb)'},
+  {label:'Green',value:'linear-gradient(135deg,#d4fc79,#96e6a1)'},
+  {label:'Pink',value:'linear-gradient(135deg,#fbc2eb,#a6c1ee)'},
+  {label:'Cool',value:'linear-gradient(135deg,#f5f7fa,#c3cfe2)'},
+];
+const ACCENT_COLORS=[
+  {c:'#6366f1',l:'Purple'},{c:'#3b82f6',l:'Blue'},{c:'#10b981',l:'Green'},
+  {c:'#f59e0b',l:'Yellow'},{c:'#ef4444',l:'Red'},{c:'#8b5cf6',l:'Violet'},
+  {c:'#ec4899',l:'Pink'},{c:'#14b8a6',l:'Teal'},
+];
+
+let custTab=0;
+
+function openCustomize(){
+  setCustTab(0,document.querySelector('.cust-tab'));
+  renderBgPresets();
+  renderAccentSwatches();
+  // Load profile
+  const cust=DB.getObj('customization',{});
+  document.getElementById('custLogoIcon').value=cust.logoIcon||'📚';
+  document.getElementById('custName').value=cust.name||"Khiet's Learning Hub";
+  document.getElementById('custSubtitle').value=cust.subtitle||'Học tiếng Anh mỗi ngày';
+  // PIN section
+  const hasPin=!!localStorage.getItem('elh_pin');
+  document.getElementById('curPinGroup').style.display=hasPin?'':'none';
+  document.getElementById('removePinBtn').style.display=hasPin?'':'none';
+  document.getElementById('newPinInput').value='';
+  document.getElementById('confirmPinInput').value='';
+  if(hasPin)document.getElementById('curPinInput').value='';
+  openModal('modalCustomize');
+}
+
+function setCustTab(idx,el){
+  custTab=idx;
+  document.querySelectorAll('.cust-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.cust-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+function renderBgPresets(){
+  const cust=DB.getObj('customization',{});
+  const cur=cust.bgValue||BG_GRADIENTS[0].value;
+  document.getElementById('bgPresets').innerHTML=BG_GRADIENTS.map(g=>`
+    <div class="bg-preset-btn${cur===g.value?' selected':''}"
+      style="background:${g.value}" title="${g.label}"
+      onclick="applyBgGradient('${g.value}',this)"></div>`).join('');
+}
+
+function applyBgGradient(value,el){
+  document.body.style.background=value;
+  const cust=DB.getObj('customization',{});
+  cust.bgType='gradient';cust.bgValue=value;
+  DB.setObj('customization',cust);
+  document.querySelectorAll('.bg-preset-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  showToast('Đã thay đổi nền ✓','success');
+}
+
+async function handleBgImg(e){
+  const file=e.target.files[0];if(!file)return;
+  const b64=await compressImg(file,1920,0.8);
+  document.body.style.background=`url(${b64}) center/cover no-repeat fixed`;
+  const cust=DB.getObj('customization',{});
+  cust.bgType='image';cust.bgValue=b64;
+  DB.setObj('customization',cust);
+  document.querySelectorAll('.bg-preset-btn').forEach(b=>b.classList.remove('selected'));
+  showToast('Đã đặt ảnh nền ✓','success');
+  e.target.value='';
+}
+
+function removeBg(){
+  document.body.style.background='';
+  const cust=DB.getObj('customization',{});
+  cust.bgType='';cust.bgValue='';
+  DB.setObj('customization',cust);
+  renderBgPresets();
+  showToast('Đã xóa nền tùy chỉnh');
+}
+
+function renderAccentSwatches(){
+  const cust=DB.getObj('customization',{});
+  const cur=cust.accent||'#6366f1';
+  document.getElementById('accentSwatches').innerHTML=ACCENT_COLORS.map(a=>`
+    <div class="accent-swatch${cur===a.c?' selected':''}"
+      style="background:${a.c}" title="${a.l}"
+      onclick="applyAccent('${a.c}',this)"></div>`).join('');
+}
+
+function applyAccent(color,el){
+  document.documentElement.style.setProperty('--accent',color);
+  // Derive abg at ~10% opacity
+  const r=parseInt(color.slice(1,3),16),g=parseInt(color.slice(3,5),16),b=parseInt(color.slice(5,7),16);
+  document.documentElement.style.setProperty('--abg',`rgba(${r},${g},${b},0.1)`);
+  const cust=DB.getObj('customization',{});
+  cust.accent=color;
+  DB.setObj('customization',cust);
+  document.querySelectorAll('.accent-swatch').forEach(s=>s.classList.remove('selected'));
+  el.classList.add('selected');
+  showToast('Đã đổi màu chủ đề ✓','success');
+}
+
+function saveProfile(){
+  const icon=document.getElementById('custLogoIcon').value||'📚';
+  const name=document.getElementById('custName').value.trim()||"Khiet's Learning Hub";
+  const subtitle=document.getElementById('custSubtitle').value.trim()||'Học tiếng Anh mỗi ngày';
+  const cust=DB.getObj('customization',{});
+  cust.logoIcon=icon;cust.name=name;cust.subtitle=subtitle;
+  DB.setObj('customization',cust);
+  applyProfile(icon,name,subtitle);
+  showToast('Đã lưu hồ sơ ✓','success');
+}
+
+function applyProfile(icon,name,subtitle){
+  document.getElementById('sbLogoText').textContent=(icon||'📚')+' '+name;
+  document.getElementById('sbSubtitle').textContent=subtitle;
+  document.title=name;
+}
+
+function restoreCustomization(){
+  const cust=DB.getObj('customization',{});
+  if(cust.bgType==='gradient'&&cust.bgValue){
+    document.body.style.background=cust.bgValue;
+  } else if(cust.bgType==='image'&&cust.bgValue){
+    document.body.style.background=`url(${cust.bgValue}) center/cover no-repeat fixed`;
+  }
+  if(cust.accent){
+    document.documentElement.style.setProperty('--accent',cust.accent);
+    const r=parseInt(cust.accent.slice(1,3),16),g=parseInt(cust.accent.slice(3,5),16),b=parseInt(cust.accent.slice(5,7),16);
+    document.documentElement.style.setProperty('--abg',`rgba(${r},${g},${b},0.1)`);
+  }
+  if(cust.name||cust.logoIcon||cust.subtitle){
+    applyProfile(cust.logoIcon||'📚',cust.name||"Khiet's Learning Hub",cust.subtitle||'Học tiếng Anh mỗi ngày');
+  }
+}
+
+// ============================================================
+//  PIN MANAGEMENT (in Customize modal)
+// ============================================================
+function savePIN(){
+  const hasPin=!!localStorage.getItem('elh_pin');
+  const newPin=document.getElementById('newPinInput').value;
+  const confirmPin=document.getElementById('confirmPinInput').value;
+  if(!/^\d{4}$/.test(newPin)){showToast('Mã PIN phải là 4 chữ số!','error');return;}
+  if(newPin!==confirmPin){showToast('Mã PIN xác nhận không khớp!','error');return;}
+  if(hasPin){
+    const cur=document.getElementById('curPinInput').value;
+    if(cur!==localStorage.getItem('elh_pin')){showToast('Mã PIN hiện tại không đúng!','error');return;}
+  }
+  localStorage.setItem('elh_pin',newPin);
+  sessionStorage.setItem('elh_auth','1');
+  document.getElementById('curPinGroup').style.display='';
+  document.getElementById('removePinBtn').style.display='';
+  document.getElementById('newPinInput').value='';
+  document.getElementById('confirmPinInput').value='';
+  document.getElementById('curPinInput').value='';
+  showToast('Đã đặt mã PIN ✓','success');
+}
+
+function removePIN(){
+  if(!confirm('Xóa mã PIN? Trang sẽ không còn yêu cầu đăng nhập.'))return;
+  const cur=document.getElementById('curPinInput').value;
+  if(cur!==localStorage.getItem('elh_pin')){showToast('Mã PIN hiện tại không đúng!','error');return;}
+  localStorage.removeItem('elh_pin');
+  sessionStorage.removeItem('elh_auth');
+  document.getElementById('curPinGroup').style.display='none';
+  document.getElementById('removePinBtn').style.display='none';
+  document.getElementById('curPinInput').value='';
+  showToast('Đã xóa mã PIN');
+}
+
+// ============================================================
 //  INIT
 // ============================================================
+function initApp(){
+  document.querySelectorAll('.modal-overlay').forEach(m=>m.style.display='none');
+  restoreCustomization();
+  renderDashboard();
+  updateStreak();
+}
+
+// Init modals hidden
 document.querySelectorAll('.modal-overlay').forEach(m=>m.style.display='none');
-renderDashboard();
-updateStreak();
+// Check PIN and start app
+checkPIN();
 </script>
 </body>
 </html>
