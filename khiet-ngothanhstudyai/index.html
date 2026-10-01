@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="Prompt Lab: giáo trình AI chuyên sâu 28 bài, từ nền tảng đến ứng dụng, có hoạt động làm ngay và nguồn PDF theo trang.">
+  <title>Prompt Lab · Giáo trình AI chuyên sâu</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23162d50'/%3E%3Cpath d='m10 12 8 8-8 8m12 0h9' fill='none' stroke='%237ee0cd' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Đến nội dung bài học</a>
+  <aside id="sidebar">
+    <a class="brand" href="#home"><span class="brandmark">&gt;_</span> Prompt Lab</a>
+    <p class="small">GIÁO TRÌNH AI CHUYÊN SÂU</p>
+    <nav aria-label="Điều hướng chính"><a href="#home">▦ &nbsp; Lộ trình 28 bài</a><a href="#sources">▣ &nbsp; Tài liệu nguồn</a></nav>
+    <div class="side-progress"><div class="row"><b>Tiến độ học</b><span id="progress-label">0/28</span></div><progress id="progress" max="28" value="0"></progress></div>
+    <div id="lesson-nav"></div>
+    <div class="backup"><b>Bài làm của bạn</b><p id="account-label">Đang mở dữ liệu…</p><p>Đăng nhập cùng email để tiếp tục trên thiết bị khác. Khi chưa đăng nhập, bài làm chỉ lưu trên thiết bị này.</p><button id="account-open">Tài khoản và đồng bộ</button><button id="sync-retry">Đồng bộ ngay</button><button id="sync-conflicts" hidden>Xem các bản khác nhau</button><button id="export">Xuất sao lưu</button><button id="import">Nhập sao lưu</button><button id="legacy-backup" hidden>Bản sao trước khi chuyển</button><input type="file" id="file" accept="application/json,.json" hidden><p id="storage-status" role="status" aria-live="polite"></p><button id="sign-in" hidden>Đăng nhập để đồng bộ</button></div>
+  </aside>
+  <div class="workspace">
+    <header><button id="menu" aria-expanded="false" aria-controls="sidebar">☰ <span>Bài học</span></button><span>Học AI có hệ thống <span class="separator">/</span> Giảng giải · Làm ngay · Đối chiếu</span><span class="local-tag" id="sync-tag">Đang kết nối</span></header>
+    <main id="main" tabindex="-1"><div class="eyebrow">GIÁO TRÌNH AI CHUYÊN SÂU</div><h1>Hiểu cơ chế.<br>Thử ngay trong bài.</h1><p class="lead">Đang tải lộ trình học…</p></main>
+    <footer>Prompt Lab <span>Học bằng thực hành. Kiểm tra bằng bằng chứng.</span></footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="data-dialog" aria-labelledby="data-dialog-title"><div class="row"><h2 id="data-dialog-title">Bản sao lưu</h2><button id="data-dialog-close">Đóng</button></div><div id="data-dialog-body"></div></dialog>
+  <dialog id="account-dialog" aria-labelledby="account-dialog-title">
+    <div class="row"><h2 id="account-dialog-title">Tài khoản của bạn</h2><button id="account-dialog-close">Đóng</button></div>
+    <p id="account-message" role="status" aria-live="polite"></p>
+    <div id="account-sign-in" hidden>
+      <form id="email-form"><label class="field" for="login-email">Email dùng để lưu tiến độ</label><input id="login-email" type="email" autocomplete="email" required maxlength="254" placeholder="Email của bạn"><button id="send-code" class="primary" type="submit">Gửi mã đăng nhập</button></form>
+      <form id="otp-form" hidden><label class="field" for="login-code">Mã trong email</label><input id="login-code" type="text" inputmode="numeric" autocomplete="one-time-code" required pattern="[0-9]{6,8}" maxlength="8"><button id="verify-code" class="primary" type="submit">Đăng nhập</button></form>
+    </div>
+    <div id="account-signed-in" hidden><b id="account-email-label"></b><p>Bài làm chưa đăng nhập vẫn được giữ riêng trên thiết bị. Muốn chuyển vào tài khoản, xuất sao lưu trước khi đăng nhập, rồi nhập lại sau khi đăng nhập.</p><button id="sign-out">Đăng xuất trên thiết bị này</button></div>
+    <p class="privacy-note">Giáo trình được truy cập công khai. Bài làm và ghi chú không được chia sẻ với người học khác. PDF bạn chọn chỉ mở trong trình duyệt, không tải lên máy chủ.</p>
+  </dialog>
+  <script src="academy-part-1.js"></script>
+  <script src="academy-part-2.js"></script>
+  <script src="config.js"></script>
+  <script src="vendor/supabase.js"></script>
+  <script src="account.js"></script>
+  <script src="private-sources.js"></script>
+  <script src="progress-sync.js"></script>
+  <script src="academy-app.js"></script>
+</body>
+</html>
