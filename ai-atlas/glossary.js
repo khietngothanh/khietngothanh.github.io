@@ -1,0 +1,17 @@
+window.GLOSSARY={
+2:[['Token','Đơn vị văn bản mô hình xử lý; không nhất thiết là một từ.'],['Attention','Cơ chế cân nhắc quan hệ giữa các phần của chuỗi đầu vào.'],['Hallucination','Đầu ra có vẻ hợp lý nhưng không được bằng chứng hỗ trợ.']],
+4:[['Few-shot prompting','Đưa vài cặp đầu vào–đầu ra mẫu để minh họa quy tắc.'],['Chain of thought prompting','Gợi cách triển khai lập luận; khi học nên yêu cầu các bước giải thích có thể kiểm chứng.'],['Prompt priming','Đặt bối cảnh và quy ước trước tác vụ chính.']],
+8:[['Retrieval practice','Tự nhớ và trả lời trước khi xem lại tài liệu.'],['Qualitative research','Nghiên cứu ý nghĩa, chủ đề, trải nghiệm trong dữ liệu phi số.'],['Quantitative research','Nghiên cứu biến số và mối quan hệ bằng đo lường, thống kê.']],
+26:[['Search intent','Mục đích thực sự đằng sau câu hỏi tìm kiếm.'],['Primary source','Nguồn gốc trực tiếp như nghiên cứu, dữ liệu hoặc tài liệu chính thức.'],['Citation check','Mở nguồn và đối chiếu xem nó thật sự hỗ trợ khẳng định.']],
+27:[['Grounding','Neo câu trả lời vào các nguồn được cung cấp.'],['Source citation','Vị trí trích dẫn để quay lại tài liệu gốc.'],['Evidence matrix','Bảng nối khẳng định với nguồn, phương pháp và độ chắc chắn.']],
+13:[['Schema','Định nghĩa cột, kiểu dữ liệu, đơn vị và quy tắc hợp lệ.'],['Data provenance','Khả năng truy lại nguồn và các bước biến đổi dữ liệu.'],['Writing style guide','Bộ quy tắc cụ thể mô tả giọng viết và cách trình bày.']],
+18:[['Storyboard','Kế hoạch từng slide/cảnh gồm thông điệp và hình hỗ trợ.'],['Speaker notes','Lời nói và dẫn giải bổ sung ngoài nội dung trên slide.'],['Visual hierarchy','Thứ tự thị giác giúp người xem biết đọc điều gì trước.']],
+24:[['Workspace','Bộ ứng dụng cộng tác như Docs, Sheets, Drive, Gmail.'],['Gem','Trợ lý được cấu hình bằng chỉ dẫn cho tác vụ lặp lại.'],['Permission scope','Phạm vi tài liệu hoặc hành động một công cụ được truy cập.']],
+14:[['AI agent','Hệ thống dùng công cụ và lặp hành động theo mục tiêu.'],['MCP','Model Context Protocol, chuẩn kết nối mô hình với công cụ và nguồn dữ liệu.'],['Human-in-the-loop','Bước con người kiểm và quyết định trước hành động quan trọng.']],
+32:[['Trigger','Sự kiện hoặc lịch bắt đầu một scenario.'],['Router / filter','Công cụ phân nhánh và chỉ cho dữ liệu phù hợp đi tiếp.'],['Idempotency','Chạy lại cùng input không tạo tác dụng phụ trùng lặp.']],
+7:[['Hook','Mở đầu tạo lý do để người xem tiếp tục.'],['CTA','Call to action, hành động cụ thể bạn mời người xem thực hiện.'],['SEO','Search Engine Optimization, tối ưu nội dung đáp ứng nhu cầu tìm kiếm.']],
+45:[['STT','Speech-to-text, chuyển tiếng nói thành văn bản.'],['TTS','Text-to-speech, tạo âm thanh từ văn bản.'],['Clipping','Méo tiếng khi tín hiệu vượt mức thu hoặc phát cho phép.']],
+47:[['B-roll','Hình hỗ trợ phủ lên lời kể hoặc cảnh chính.'],['Captions','Phụ đề đồng bộ với lời nói.'],['Seed','Giá trị khởi tạo giúp thử tái tạo hoặc biến thể kết quả ở một số công cụ.']],
+23:[['Vibe coding','Dùng ngôn ngữ tự nhiên hướng dẫn AI tạo và sửa mã.'],['PRD','Product Requirements Document, mô tả mục tiêu, luồng và tiêu chí sản phẩm.'],['Acceptance criteria','Điều kiện cụ thể để xác nhận tính năng đã đạt yêu cầu.']],
+39:[['Value proposition','Lời giải thích giá trị cụ thể khách hàng nhận được.'],['Portfolio case study','Bằng chứng một dự án từ vấn đề đến kết quả.'],['Validation','Thử với người dùng và dữ liệu thực trước khi mở rộng.']]
+};

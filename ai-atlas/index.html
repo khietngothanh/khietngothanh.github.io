@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10182a">
+  <meta name="description" content="Lộ trình tự học AI với 15 chủ đề, 45 bài học, bài thực hành và theo dõi tiến độ.">
+  <title>AI Atlas — Học AI có hệ thống</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Điều hướng khóa học">
+      <a class="brand" href="#home" aria-label="AI Atlas, trang chủ"><span class="brand-mark">✳</span><span>AI <strong>ATLAS</strong><small>HỌC ĐỂ LÀM ĐƯỢC</small></span></a>
+      <div class="side-label">KHÔNG GIAN HỌC</div>
+      <nav class="primary-nav">
+        <a href="#home" data-nav="home"><span>◫</span> Tổng quan</a>
+        <a href="#curriculum" data-nav="curriculum"><span>▦</span> Lộ trình học</a>
+        <a href="#practice" data-nav="practice"><span>✎</span> Bài thực hành</a>
+      </nav>
+      <div class="side-label modules-label">15 CHỦ ĐỀ</div>
+      <nav class="module-nav" id="module-nav" aria-label="Danh sách chủ đề"></nav>
+      <div class="side-footer">
+        <div class="progress-caption"><span>Tiến độ của bạn</span><strong id="side-progress">0%</strong></div>
+        <div class="progress-track"><span id="side-bar"></span></div>
+        <button id="export-state" class="text-button">↗ Xuất tiến độ và ghi chú</button>
+        <label class="text-button import-label">↙ Nhập tiến độ <input type="file" id="import-state" accept="application/json" hidden></label>
+      </div>
+    </aside>
+    <div class="main-wrap">
+      <header class="topbar">
+        <button id="menu-button" class="icon-button menu-button" aria-label="Mở menu" aria-expanded="false">☰</button>
+        <div class="topbar-breadcrumb" id="breadcrumb">LỘ TRÌNH CÁ NHÂN <span> / </span> TỔNG QUAN</div>
+        <div class="top-actions">
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Tìm bài học, thuật ngữ..." aria-label="Tìm bài học"><kbd>/</kbd></label>
+          <button id="theme-button" class="icon-button" aria-label="Đổi giao diện" title="Đổi giao diện">☼</button>
+        </div>
+      </header>
+      <main id="view" tabindex="-1"></main>
+      <footer class="global-footer">AI Atlas · Biên soạn để tự học và thực hành · Tiến độ lưu trên trình duyệt này</footer>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="course-data.js"></script>
+  <script src="glossary.js"></script>
+  <script src="engineering.js"></script>
+  <script src="resources.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
